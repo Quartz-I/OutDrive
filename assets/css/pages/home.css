@@ -1,0 +1,475 @@
+/* ── Home Page ──────────────────────────────────────────────── */
+
+/* Token overrides specific to home */
+:root {
+  --bg-alt: #f0f1f4;
+  --surface-dark: #0a0b0d;
+  --overlay-dark: rgba(8, 6, 10, 0.72);
+  --overlay-light: rgba(255, 255, 255, 0.68);
+  --shadow-card: 0px 2px 12px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0px 8px 24px rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --border-on-dark: rgba(255, 255, 255, 0.06);
+}
+
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../../assets/images/cars/home.jpg');
+  background-size: cover;
+  background-position: center 40%;
+  transform: scale(1.04);
+  transition: transform 8s ease;
+}
+
+.hero-bg.loaded {
+  transform: scale(1);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-dark);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 160px 0 100px;
+  max-width: 660px;
+}
+
+.hero-eyebrow {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: var(--text-on-brand);
+  margin-bottom: 20px;
+}
+
+.hero-sub {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--overlay-light);
+  margin-bottom: 48px;
+  font-weight: 300;
+  max-width: 480px;
+}
+
+/* ── Booking Widget ── */
+.booking-widget {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  max-width: 520px;
+}
+
+.booking-widget label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.booking-widget .form-control,
+.booking-widget .form-select {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 11px 14px;
+  color: var(--text-primary);
+  background: #f9f9fc;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.booking-widget .form-control:focus,
+.booking-widget .form-select:focus {
+  border-color: var(--brand-red);
+  box-shadow: 0 0 0 3px rgba(166, 0, 31, 0.1);
+  outline: none;
+}
+
+.booking-divider {
+  width: 1px;
+  background: var(--border);
+  height: auto;
+  align-self: stretch;
+  margin: 0 4px;
+}
+
+.btn-explore {
+  width: 100%;
+  padding: 14px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  background: var(--brand-red);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  letter-spacing: 0.01em;
+  transition: background 0.18s, transform 0.18s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.btn-explore:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  color: #fff;
+}
+
+.distance-result {
+  margin-top: 8px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.2s;
+}
+
+.distance-result.found {
+  color: var(--brand-red);
+}
+
+.distance-result .material-symbols-outlined {
+  font-size: 15px;
+  width: 15px;
+  min-width: 15px;
+  height: 15px;
+}
+
+/* ── Section shared ── */
+.section-eyebrow {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand-red);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 3vw, 2.6rem);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  color: var(--text-primary);
+  margin-bottom: 0;
+}
+
+/* ── Featured Fleet ── */
+.fleet-section {
+  background: var(--bg-alt);
+  padding: 120px 0;
+}
+
+.fleet-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  margin-top: 56px;
+}
+
+.fleet-action {
+  margin-top: 42px;
+}
+
+@media (max-width: 991px) {
+  .fleet-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.car-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.car-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  color: inherit;
+}
+
+.car-card-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+}
+
+.car-card--featured .car-card-img {
+  aspect-ratio: 16/9;
+}
+
+.car-card-body {
+  padding: 20px 22px 22px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.car-badge {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  background: rgba(58, 97, 135, 0.09);
+  padding: 3px 9px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.car-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.car-specs {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.car-spec-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.car-spec-item .material-symbols-outlined {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.car-price-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.car-price {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+}
+
+.car-price span {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0;
+}
+
+.btn-view {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--brand-red);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: none;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: gap 0.18s;
+  min-height: 44px;
+}
+
+.btn-view:hover {
+  gap: 10px;
+  color: var(--brand-red-dark);
+}
+
+.btn-view .material-symbols-outlined {
+  font-size: 17px;
+}
+
+/* ── Why outDrive ── */
+.why-section {
+  padding: 120px 0;
+  background: var(--bg);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+
+@media (max-width: 991px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feature-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 40px;
+  border: 1px solid var(--border);
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), border-color 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--brand-red);
+}
+
+.feature-card:nth-child(1),
+.feature-card:nth-child(4) {
+  grid-column: span 7;
+}
+
+.feature-card:nth-child(2),
+.feature-card:nth-child(3) {
+  grid-column: span 5;
+}
+
+@media (max-width: 991px) {
+  .feature-card:nth-child(n) {
+    grid-column: span 1;
+  }
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.feature-icon .material-symbols-outlined {
+  font-size: 28px;
+  color: #fff;
+  font-variation-settings: 'FILL' 1;
+}
+
+.feature-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.feature-desc {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── CTA Band ── */
+.cta-band {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-dark);
+  padding: 100px 0;
+}
+
+.cta-band-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.cta-band-sub {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.9375rem;
+  margin-top: 10px;
+}
+
+/* ── Footer override for home (uses CSS vars) ── */
+.od-footer {
+  background: var(--surface-dark);
+  border-top: 1px solid var(--border-on-dark);
+}
+
+@media (max-width: 767px) {
+  .hero-content {
+    padding-top: 110px;
+  }
+
+  .booking-widget {
+    padding: 20px 18px;
+  }
+
+  .fleet-section,
+  .why-section {
+    padding: 64px 0;
+  }
+}

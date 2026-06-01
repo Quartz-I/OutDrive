@@ -1,0 +1,195 @@
+/* ── Offcanvas sidebar — standalone (no Bootstrap) ── */
+
+.od-offcanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1045;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.od-offcanvas.is-open {
+  transform: translateX(0);
+}
+
+.od-nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1044;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.od-nav-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.od-offcanvas-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.od-offcanvas-logo {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.35rem;
+  color: var(--brand-red);
+  letter-spacing: -0.5px;
+}
+
+.od-offcanvas-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--text-muted);
+  transition: color 0.15s, background 0.15s;
+  padding: 0;
+}
+
+.od-offcanvas-close:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.od-offcanvas-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-nav {
+  padding: 16px 12px;
+  flex: 1;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 11px 14px;
+  border-radius: 10px;
+  transition: background 0.15s, color 0.15s;
+  margin-bottom: 2px;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+  background: rgba(166, 0, 31, 0.06);
+  color: var(--brand-red);
+}
+
+.sidebar-nav a .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--text-muted);
+}
+
+.sidebar-nav a:hover .material-symbols-outlined,
+.sidebar-nav a.active .material-symbols-outlined {
+  color: var(--brand-red);
+}
+
+.sidebar-user {
+  padding: 16px 19px 20px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a6001f, #3a6187);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.user-avatar-sm {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a6001f, #3a6187);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.user-email {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.sidebar-signout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--brand-red);
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin: 0 16px 18px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sidebar-signout:hover {
+  background: rgba(166, 0, 31, 0.08);
+}
+
+.btn-signout {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--brand-red);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Manrope', sans-serif;
+}

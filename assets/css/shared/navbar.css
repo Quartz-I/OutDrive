@@ -1,0 +1,156 @@
+/* ── Navbar — Variant B (Glass Blur, all content pages) ────── */
+.od-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  background: rgba(249, 249, 252, 0.82);
+  border-bottom: 1px solid var(--border);
+  height: 68px;
+}
+
+.od-navbar .container-fluid {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 32px;
+  gap: 16px;
+}
+
+.od-logo {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.45rem;
+  color: var(--brand-red);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
+}
+
+.od-logo:hover {
+  color: var(--brand-red-dark);
+}
+
+.od-nav-center {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+}
+
+.od-nav-link {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  position: relative;
+  transition: color .18s;
+}
+
+.od-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: var(--brand-red);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform .2s;
+}
+
+.od-nav-link:hover {
+  color: var(--brand-red);
+}
+
+.od-nav-link:hover::after,
+.od-nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.od-nav-link.active {
+  color: var(--brand-red);
+}
+
+.od-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.btn-signin {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: color .18s;
+}
+
+.btn-signin:hover {
+  color: var(--brand-red);
+}
+
+.btn-booknow {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #fff;
+  background: linear-gradient(135deg, #c0001f 0%, #a6001f 60%, #840019 100%);
+  border: none;
+  padding: 9px 22px;
+  border-radius: 9px;
+  text-decoration: none;
+  letter-spacing: .01em;
+  transition: opacity .18s, transform .18s;
+  box-shadow: 0 4px 16px rgba(166, 0, 31, .28);
+  display: inline-block;
+}
+
+.btn-booknow:hover {
+  opacity: .9;
+  transform: translateY(-1px);
+  color: #fff;
+}
+
+.btn-hamburger {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  transition: background .15s;
+}
+
+.btn-hamburger:hover {
+  background: rgba(0, 0, 0, .05);
+}
+
+.btn-hamburger .material-symbols-outlined {
+  font-size: 24px;
+}
+
+/* ── Page wrapper offset ── */
+.page-wrap {
+  padding-top: 68px;
+}
+
+@media (max-width: 767px) {
+  .od-nav-center {
+    display: none !important;
+  }
+}

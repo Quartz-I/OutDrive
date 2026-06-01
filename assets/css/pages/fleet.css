@@ -1,0 +1,381 @@
+/* ── Fleet Page ─────────────────────────────────────────────── */
+
+/* Page layout */
+.page-wrap {
+  padding-top: 68px;
+  min-height: 100vh;
+}
+
+/* Footer margin */
+.od-footer {
+  margin-top: 80px;
+}
+
+/* ── Toolbar ── */
+.fleet-toolbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  position: sticky;
+  top: 68px;
+  z-index: 100;
+}
+
+.search-input-wrap {
+  position: relative;
+  flex: 1;
+}
+
+.search-input-wrap .material-symbols-outlined {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--bg);
+  outline: none;
+  transition: border-color .18s, box-shadow .18s;
+}
+
+.search-input:focus {
+  border-color: var(--brand-red);
+  box-shadow: 0 0 0 3px rgba(166, 0, 31, .1);
+}
+
+.sort-select {
+  padding: 10px 36px 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg);
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+  transition: border-color .18s;
+}
+
+.sort-select:focus {
+  border-color: var(--brand-red);
+}
+
+.results-count {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ── Filter Sidebar ── */
+.filter-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 136px;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.filter-panel {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 24px 20px;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}
+
+.btn-clear {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--brand-red);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.filter-group {
+  margin-bottom: 22px;
+}
+
+.filter-group-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.filter-chip-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.filter-chip {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all .18s;
+  user-select: none;
+}
+
+.filter-chip:hover,
+.filter-chip.active {
+  background: rgba(166, 0, 31, .07);
+  border-color: var(--brand-red);
+  color: var(--brand-red);
+}
+
+.price-range-display {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--brand-red);
+  cursor: pointer;
+}
+
+/* ── Car Cards Grid ── */
+.cars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1199px) {
+  .cars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .cars-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.car-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform .25s, box-shadow .25s;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  color: inherit;
+}
+
+.car-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.car-card-img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s;
+}
+
+.car-card:hover .car-card-img {
+  transform: scale(1.04);
+}
+
+.car-card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 3px 9px;
+  border-radius: 5px;
+}
+
+.car-heart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .18s, transform .18s;
+}
+
+.car-heart:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+
+.car-heart .material-symbols-outlined {
+  font-size: 17px;
+  color: var(--text-muted);
+  font-variation-settings: 'FILL' 0;
+}
+
+.car-heart.active .material-symbols-outlined {
+  color: var(--brand-red);
+  font-variation-settings: 'FILL' 1;
+}
+
+.car-card-body {
+  padding: 18px 20px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.car-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.0rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.car-specs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.car-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.car-price {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.car-price span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0;
+}
+
+.btn-view-details {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--brand-red);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background .18s, transform .15s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-view-details:hover {
+  background: var(--brand-red-dark);
+  transform: translateY(-1px);
+  color: #fff;
+}
+
+/* ── Mobile filter button ── */
+.mobile-filter-btn {
+  display: none;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 16px;
+  cursor: pointer;
+  gap: 6px;
+  align-items: center;
+}

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <!-- Font Awesome (social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/shared/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/shared/offcanvas.css" />
+  <link rel="stylesheet" href="../assets/css/shared/footer.css" />
+  <link rel="stylesheet" href="../assets/css/layouts/account.css" />
+  <link rel="stylesheet" href="../assets/css/pages/profile.css" />
+</head>
+<body>
+  <nav class="od-navbar">
+    <div class="container-fluid">
+      <button class="btn-hamburger" data-nav-open aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
+      <a href="home.html" class="od-logo">outDrive</a>
+      <div class="od-nav-center">
+        <a href="fleet.html" class="od-nav-link">Fleet</a>
+        <a href="locations.html" class="od-nav-link">Locations</a>
+        <a href="experience.html" class="od-nav-link">Experience</a>
+      </div>
+      <div class="od-nav-right">
+        <a href="signin.html" class="btn-signin">Sign Out</a>
+        <a href="fleet.html" class="btn-booknow">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="navOverlay" class="od-nav-overlay"></div>
+  <div class="od-offcanvas" id="sidebarMenu">
+    <div class="od-offcanvas-header">
+      <span class="od-offcanvas-logo">outDrive</span>
+      <button class="od-offcanvas-close" data-nav-close aria-label="Close navigation">&times;</button>
+    </div>
+    <div class="od-offcanvas-body">
+      <nav class="sidebar-nav">
+        <a href="profile.html" class="active"><span class="material-symbols-outlined">person</span>Profile</a>
+        <a href="rental-history.html"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+        <a href="saved-vehicles.html"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+      </nav>
+      <div class="sidebar-user mt-auto">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="user-avatar-sm" id="sidebarAvatar">AJ</div>
+          <div><div class="user-name" id="sidebarUserName"></div><div class="user-email" id="sidebarUserEmail"></div></div>
+        </div>
+        <button class="btn-signout">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="container">
+      <div class="account-layout">
+
+        <!-- Side nav -->
+        <aside class="account-sidenav">
+          <div class="sidenav-card">
+            <div class="sidenav-user">
+              <div class="sidenav-avatar" id="sideAvatar">AJ</div>
+              <div>
+                <div class="sidenav-name" id="sideUserName"></div>
+                <div class="sidenav-email" id="sideUserEmail"></div>
+              </div>
+            </div>
+            <div class="sidenav-links">
+              <a href="profile.html" class="sidenav-link active"><span class="material-symbols-outlined">person</span>Profile</a>
+              <a href="rental-history.html" class="sidenav-link"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+              <a href="saved-vehicles.html" class="sidenav-link"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+              <div class="sidenav-divider"></div>
+              <a href="#" class="sidenav-link danger btn-signout"><span class="material-symbols-outlined">logout</span>Sign Out</a>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main content -->
+        <div>
+          <!-- Hero -->
+          <div class="profile-hero">
+            <div class="profile-avatar" id="heroAvatar">AJ</div>
+            <div class="profile-hero-info">
+              <div class="profile-hero-name" id="heroName"></div>
+              <div class="profile-hero-email" id="heroEmail"></div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-value" id="profileTotalRentals">0</span>
+              <span class="stat-label">Total Rentals</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-value" id="profileTotalSpent">$0</span>
+              <span class="stat-label">Total Spent</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-value" id="profileSavedCount">0</span>
+              <span class="stat-label">Saved Vehicles</span>
+            </div>
+          </div>
+
+          <!-- Personal info -->
+          <div class="content-card">
+            <div class="content-card-header">
+              <span class="content-card-title">Personal Information</span>
+              <button class="btn-edit" onclick="toggleEdit()"><span class="material-symbols-outlined">edit</span>Edit</button>
+            </div>
+            <div class="content-card-body">
+              <div class="field-grid" id="profileFields">
+                <div class="field-group">
+                  <span class="field-label">First Name</span>
+                  <input class="field-input" value="Alex" disabled id="fFirst" />
+                </div>
+                <div class="field-group">
+                  <span class="field-label">Last Name</span>
+                  <input class="field-input" value="Johnson" disabled id="fLast" />
+                </div>
+                <div class="field-group">
+                  <span class="field-label">Email</span>
+                  <input class="field-input" type="email" value="alex@example.com" disabled id="fEmail" />
+                </div>
+                <div class="field-group">
+                  <span class="field-label">Phone</span>
+                  <input class="field-input" type="tel" value="+1 (310) 555-0198" disabled id="fPhone" />
+                </div>
+                <div class="field-group">
+                  <span class="field-label">Date of Birth</span>
+                  <input class="field-input" type="date" value="1990-06-15" disabled id="fDob" />
+                </div>
+                <div class="field-group">
+                  <span class="field-label">Nationality</span>
+                  <input class="field-input" value="United States" disabled id="fNat" />
+                </div>
+              </div>
+              <button class="btn-save" id="saveBtn" style="display:none" onclick="saveProfile()">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="od-footer">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+          <span class="od-footer-logo">outDrive</span>
+          <nav class="od-footer-links"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a><a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></nav>
+          <span class="od-footer-copy">© 2026 outDrive.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/user-data.js"></script>
+  <script>
+    const API_URL = '/api/auth';
+    const PROFILE_USER_KEY = 'authUser';
+    let editing = false;
+    const inputs = ['fFirst','fLast','fEmail','fPhone','fDob','fNat'];
+
+    function getProfileUser() {
+      const userJson = localStorage.getItem(PROFILE_USER_KEY);
+      try {
+        return userJson ? JSON.parse(userJson) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveProfileUser(user) {
+      localStorage.setItem(PROFILE_USER_KEY, JSON.stringify(user));
+    }
+
+    function getInitials(user) {
+      const first = user.firstName || '';
+      const last = user.lastName || '';
+      return (first.charAt(0) + last.charAt(0)).toUpperCase();
+    }
+
+    function updateProfileDisplay(user) {
+      const initials = getInitials(user);
+      document.getElementById('sidebarAvatar').textContent = initials;
+      document.getElementById('sidebarUserName').textContent = `${user.firstName} ${user.lastName}`;
+      document.getElementById('sidebarUserEmail').textContent = user.email;
+
+      document.getElementById('sideAvatar').textContent = initials;
+      document.getElementById('sideUserName').textContent = `${user.firstName} ${user.lastName}`;
+
+      document.getElementById('heroAvatar').textContent = initials;
+      document.getElementById('heroName').textContent = `${user.firstName} ${user.lastName}`;
+      document.getElementById('heroEmail').textContent = user.email;
+
+      document.getElementById('fFirst').value = user.firstName;
+      document.getElementById('fLast').value = user.lastName;
+      document.getElementById('fEmail').value = user.email;
+      document.getElementById('fPhone').value = user.phone || '';
+      document.getElementById('fDob').value = user.dateOfBirth ? user.dateOfBirth.split('T')[0] : '';
+      document.getElementById('fNat').value = user.nationality || '';
+    }
+
+    async function loadProfile() {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        window.location.href = 'signin.html';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          signOut();
+          return;
+        }
+
+        const data = await response.json();
+        localStorage.setItem(PROFILE_USER_KEY, JSON.stringify(data.user));
+        updateProfileDisplay(data.user);
+        updateProfileTotals(data.user);
+      } catch (err) {
+        console.error('Profile load failed:', err);
+        signOut();
+        return;
+      }
+
+      document.querySelectorAll('.btn-signin, .btn-signout').forEach((button) => {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+          signOut();
+        });
+      });
+    }
+
+    function updateProfileTotals(user) {
+      const rentals = Array.isArray(user.rentals) ? user.rentals : [];
+      const savedCount = Array.isArray(user.savedVehicles) ? user.savedVehicles.length : 0;
+      const totalSpent = rentals.reduce((sum, rental) => sum + (rental.total || 0), 0);
+
+      document.getElementById('profileTotalRentals').textContent = rentals.length;
+      document.getElementById('profileTotalSpent').textContent = `$${totalSpent.toLocaleString()}`;
+      document.getElementById('profileSavedCount').textContent = savedCount;
+    }
+
+    function toggleEdit() {
+      editing = !editing;
+      inputs.forEach(id => document.getElementById(id).disabled = !editing);
+      document.getElementById('saveBtn').style.display = editing ? 'inline-block' : 'none';
+      document.querySelector('.btn-edit').innerHTML = editing
+        ? '<span class="material-symbols-outlined">close</span>Cancel'
+        : '<span class="material-symbols-outlined">edit</span>Edit';
+    }
+
+    async function saveProfile() {
+      editing = false;
+      inputs.forEach(id => document.getElementById(id).disabled = true);
+      document.getElementById('saveBtn').style.display = 'none';
+      document.querySelector('.btn-edit').innerHTML = '<span class="material-symbols-outlined">edit</span>Edit';
+
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        signOut();
+        return;
+      }
+
+      const payload = {
+        firstName: document.getElementById('fFirst').value,
+        lastName: document.getElementById('fLast').value,
+        email: document.getElementById('fEmail').value,
+        phone: document.getElementById('fPhone').value,
+        dateOfBirth: document.getElementById('fDob').value,
+        nationality: document.getElementById('fNat').value,
+      };
+
+      try {
+        const response = await fetch(`${API_URL}/me`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          console.error('Save profile failed:', data);
+          alert(data.message || 'Unable to update profile.');
+          return;
+        }
+
+        saveProfileUser(data.user);
+        updateProfileDisplay(data.user);
+      } catch (err) {
+        console.error('Save profile error:', err);
+        alert('Unable to update profile. Please try again later.');
+      }
+    }
+
+    function signOut() {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('authUser');
+      window.location.href = 'signin.html';
+    }
+
+    window.addEventListener('DOMContentLoaded', loadProfile);
+  </script>
+</body>
+</html>

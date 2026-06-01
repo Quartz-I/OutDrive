@@ -1,0 +1,108 @@
+/* ── Base Reset & Typography ─────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-display {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* ── Layout utilities (Bootstrap drop-in replacements) ── */
+.container {
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 576px)  { .container { max-width: 540px; } }
+@media (min-width: 768px)  { .container { max-width: 720px; } }
+@media (min-width: 992px)  { .container { max-width: 960px; } }
+@media (min-width: 1200px) { .container { max-width: 1140px; } }
+@media (min-width: 1400px) { .container { max-width: 1320px; } }
+
+.container-fluid {
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.d-flex              { display: flex; }
+.flex-column         { flex-direction: column; }
+.flex-wrap           { flex-wrap: wrap; }
+.align-items-center  { align-items: center; }
+.justify-content-between { justify-content: space-between; }
+.justify-content-center  { justify-content: center; }
+.mt-auto { margin-top: auto; }
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.p-0 { padding: 0; }
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 1rem; }
+.gap-4 { gap: 1.5rem; }
+.gap-5 { gap: 3rem; }
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+.overflow-hidden { overflow: hidden; }
+.position-relative { position: relative; }
+.text-center { text-align: center; }
+.fw-bold { font-weight: 700; }
+.small { font-size: 0.875rem; }
+
+/* Brand colour helpers (previously from Bootstrap overrides) */
+.text-primary {
+  color: var(--brand-red) !important;
+}
+
+/* ── Material Symbols safety: prevent ligature bleed ── */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  overflow: hidden;
+  width: 20px;
+  min-width: 20px;
+  max-width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+}

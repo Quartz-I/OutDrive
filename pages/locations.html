@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Locations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <!-- Font Awesome (social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/shared/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/shared/offcanvas.css" />
+  <link rel="stylesheet" href="../assets/css/shared/footer.css" />
+  <link rel="stylesheet" href="../assets/css/shared/page-hero.css" />
+  <link rel="stylesheet" href="../assets/css/pages/locations.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="od-navbar">
+    <div class="container-fluid">
+      <button class="btn-hamburger" data-nav-open aria-label="Open navigation">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <a href="home.html" class="od-logo">outDrive</a>
+      <div class="od-nav-center">
+        <a href="fleet.html" class="od-nav-link">Fleet</a>
+        <a href="locations.html" class="od-nav-link active">Locations</a>
+        <a href="experience.html" class="od-nav-link">Experience</a>
+      </div>
+      <div class="od-nav-right">
+        <a href="signin.html" class="btn-signin">Sign In</a>
+        <a href="fleet.html" class="btn-booknow">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Offcanvas sidebar -->
+  <div id="navOverlay" class="od-nav-overlay"></div>
+  <div class="od-offcanvas" id="sidebarMenu">
+    <div class="od-offcanvas-header">
+      <span class="od-offcanvas-logo">outDrive</span>
+      <button class="od-offcanvas-close" data-nav-close aria-label="Close navigation">&times;</button>
+    </div>
+    <div class="od-offcanvas-body">
+      <nav class="sidebar-nav">
+        <a href="profile.html"><span class="material-symbols-outlined">person</span>Profile</a>
+        <a href="rental-history.html"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+        <a href="saved-vehicles.html"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+      </nav>
+      <div class="sidebar-user mt-auto">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="user-avatar">GU</div>
+          <div>
+            <div class="user-name">Guest</div>
+            <div class="user-email">Guest@example.com</div>
+          </div>
+        </div>
+        <button class="btn-signout">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+
+    <!-- Hero -->
+    <div class="page-hero">
+      <div class="container">
+        <p class="page-hero-eyebrow">Pick Up &amp; Drop Off</p>
+        <h1 class="page-hero-title">Cairo &amp; Giza Hubs.</h1>
+        <p class="page-hero-sub">Three premium pickup points across Cairo — airport arrivals, city centre, and the Giza
+          corridor.</p>
+      </div>
+    </div>
+
+    <!-- Split: cards + map -->
+    <div class="locations-layout">
+
+      <!-- Cards -->
+      <div class="locations-list" id="locationsList">
+
+        <!-- Cairo Airport -->
+        <div class="location-card active" data-loc="0" role="button" tabindex="0"
+          aria-label="Cairo International Airport">
+          <div class="location-card-top">
+            <div class="location-icon">
+              <span class="material-symbols-outlined">flight</span>
+            </div>
+            <span class="location-badge badge-24h">24 / 7</span>
+          </div>
+          <div class="location-name">Cairo International Airport</div>
+          <div class="location-address">Terminal 2, Cairo Airport Road, Cairo Governorate</div>
+          <div class="location-meta">
+            <div class="location-meta-row">
+              <span class="material-symbols-outlined">schedule</span>
+              <span><strong>Open 24 hours</strong>, 7 days a week</span>
+            </div>
+            <div class="location-meta-row">
+              <span class="material-symbols-outlined">call</span>
+              <span><strong>+20 (2) 2265-0100</strong></span>
+            </div>
+            <div class="location-meta-row">
+              <span class="material-symbols-outlined">local_parking</span>
+              <span>Covered valet &amp; express pickup lane</span>
+            </div>
+          </div>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=30.1119,31.4128" target="_blank" rel="noopener"
+            class="btn-directions">
+            <span class="material-symbols-outlined">directions</span>
+            Get Directions
+          </a>
+        </div>
+
+        <!-- Radisson Blu Cairo -->
+        <div class="location-card" data-loc="1" role="button" tabindex="0" aria-label="Radisson Blu Cairo">
+          <div class="location-card-top">
+            <div class="location-icon">
+              <span class="material-symbols-outlined">hotel</span>
+            </div>
+            <span class="location-badge badge-open">Open Now</span>
+          </div>
+          <div class="location-name">Radisson Blu Cairo</div>
+          <div class="location-address">El Nozha, Cairo Governorate</div>
+          <div class="location-meta">
+            <div class="location-meta-row">
+              <span class="material-symbols-outlined">schedule</span>
+              <span><strong>Daily</strong> 7:00 AM – 10:00 PM</span>
+            </div>
+            <div class="location-meta-row">
+              <span class="material-symbols-outlined">call</span>
+              <span><strong>+20 (2) 2690-5000</strong></span>
+            </div>
+            <div class="location-meta-row">
+              <span class="material-symbols-outlined">star</span>
+              <span>Hotel concierge &amp; white-glove delivery</span>
+            </div>
+          </div>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=30.1065055,31.3752525" target="_blank"
+            rel="noopener" class="btn-directions">
+            <span class="material-symbols-outlined">directions</span>
+            Get Directions
+          </a>
+        </div>
+
+        <!-- Giza -->
+        <div class="location-card" data-loc="2" role="button" tabindex="0" aria-label="outDrive Giza">
+          <div class="location-card-top">
+            <div class="location-icon">
+              <span class="material-symbols-outlined">location_city</span>
+            </div>
+            <span class="location-badge badge-open">Open Now</span>
+          </div>
+          <div class="location-name">outDrive Giza</div>
+          <div class="location-address">Pyramids Road (Sharia Al-Haram), Giza</div>
+          <div class="location-meta">
+            <div class="location-meta-row">
+              <span class="material-symbols-outlined">schedule</span>
+              <span><strong>Mon–Sat</strong> 8:00 AM – 8:00 PM</span>
+            </div>
+            <div class="location-meta-row">
+              <span class="material-symbols-outlined">call</span>
+              <span><strong>+20 (2) 3377-5500</strong></span>
+            </div>
+            <div class="location-meta-row">
+              <span class="material-symbols-outlined">ev_station</span>
+              <span>10 EV chargers available on-site</span>
+            </div>
+          </div>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=29.9870,31.1540" target="_blank" rel="noopener"
+            class="btn-directions">
+            <span class="material-symbols-outlined">directions</span>
+            Get Directions
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Map -->
+      <div class="map-column">
+        <div id="map" aria-label="Map showing outDrive pickup locations in Cairo"></div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="od-footer">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+          <span class="od-footer-logo">outDrive</span>
+          <nav class="od-footer-links">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </nav>
+          <span class="od-footer-copy">© 2026 outDrive. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/user-data.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const LOCATIONS = [
+      {
+        name: 'Cairo International Airport',
+        address: 'Terminal 2, Cairo Airport Road',
+        lat: 30.1119,
+        lng: 31.4128,
+        status: '24 / 7',
+        statusClass: 'badge-24h',
+        icon: 'flight'
+      },
+      {
+        name: 'Radisson Blu Cairo',
+        address: 'Oraby Street, Heliopolis, Cairo',
+        lat: 30.1065055,
+        lng: 31.3752525,
+        status: 'Open Now',
+        statusClass: 'badge-open',
+        icon: 'hotel'
+      },
+      {
+        name: 'outDrive Giza',
+        address: 'Pyramids Road, Giza',
+        lat: 29.9870,
+        lng: 31.1540,
+        status: 'Open Now',
+        statusClass: 'badge-open',
+        icon: 'location_city'
+      }
+    ];
+
+    /* ── Map init ── */
+    const map = L.map('map', {
+      center: [30.05, 31.30],
+      zoom: 11,
+      zoomControl: true,
+      scrollWheelZoom: true
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    /* ── Custom pin icon factory ── */
+    function createPinIcon(iconLigature, isActive) {
+      return L.divIcon({
+        className: '',
+        html: `<div class="od-pin${isActive ? ' active' : ''}">
+                 <span class="od-pin-inner">${iconLigature}</span>
+               </div>`,
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -44]
+      });
+    }
+
+    /* ── Popup content factory ── */
+    function popupHTML(loc) {
+      const badgeColor = loc.statusClass === 'badge-24h'
+        ? 'background:rgba(58,97,135,0.1);color:#3a6187'
+        : 'background:rgba(16,185,129,0.1);color:#059669';
+      return `<div class="od-popup">
+        <div class="od-popup-name">${loc.name}</div>
+        <div class="od-popup-addr">${loc.address}</div>
+        <span class="od-popup-badge" style="${badgeColor}">${loc.status}</span>
+      </div>`;
+    }
+
+    /* ── Create markers ── */
+    const markers = LOCATIONS.map((loc, idx) => {
+      const marker = L.marker([loc.lat, loc.lng], {
+        icon: createPinIcon(loc.icon, idx === 0)
+      }).addTo(map);
+
+      marker.bindPopup(popupHTML(loc), {
+        closeButton: false,
+        offset: [0, 0],
+        maxWidth: 240
+      });
+
+      if (idx === 0) {
+        marker.openPopup();
+      }
+
+      marker.on('click', () => activateLocation(idx));
+
+      return marker;
+    });
+
+    /* ── Card click handlers ── */
+    let activeIdx = 0;
+
+    function activateLocation(idx) {
+      if (idx === activeIdx) return;
+
+      /* Update cards */
+      document.querySelectorAll('.location-card').forEach((c, i) => {
+        c.classList.toggle('active', i === idx);
+      });
+
+      /* Update marker icons */
+      markers.forEach((m, i) => {
+        m.setIcon(createPinIcon(LOCATIONS[i].icon, i === idx));
+      });
+
+      /* Fly to location and open popup */
+      map.flyTo([LOCATIONS[idx].lat, LOCATIONS[idx].lng], 14, {
+        animate: true,
+        duration: 0.8
+      });
+      markers[idx].openPopup();
+
+      activeIdx = idx;
+    }
+
+    /* Wire card clicks */
+    document.querySelectorAll('.location-card').forEach((card, i) => {
+      card.addEventListener('click', () => activateLocation(i));
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activateLocation(i);
+        }
+      });
+    });
+
+    /* Fly to first location on load */
+    map.flyTo([LOCATIONS[0].lat, LOCATIONS[0].lng], 13, { animate: false });
+  </script>
+</body>
+
+</html>

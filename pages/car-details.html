@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Polestar 2 Long Range</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <!-- Font Awesome (social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/shared/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/shared/offcanvas.css" />
+  <link rel="stylesheet" href="../assets/css/shared/footer.css" />
+  <link rel="stylesheet" href="../assets/css/shared/reveal.css" />
+  <link rel="stylesheet" href="../assets/css/pages/car-details.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="od-navbar">
+    <div class="container-fluid">
+      <button class="btn-hamburger" data-nav-open aria-label="Open navigation">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <a href="home.html" class="od-logo">outDrive</a>
+      <div class="od-nav-center">
+        <a href="fleet.html" class="od-nav-link active">Fleet</a>
+        <a href="locations.html" class="od-nav-link">Locations</a>
+        <a href="experience.html" class="od-nav-link">Experience</a>
+      </div>
+      <div class="od-nav-right">
+        <a href="signin.html" class="btn-signin">Sign In</a>
+        <a href="fleet.html" class="btn-booknow">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Offcanvas -->
+  <div id="navOverlay" class="od-nav-overlay"></div>
+  <div class="od-offcanvas" id="sidebarMenu">
+    <div class="od-offcanvas-header">
+      <span class="od-offcanvas-logo">outDrive</span>
+      <button class="od-offcanvas-close" data-nav-close aria-label="Close navigation">&times;</button>
+    </div>
+    <div class="od-offcanvas-body">
+      <nav class="sidebar-nav">
+        <a href="profile.html"><span class="material-symbols-outlined">person</span>Profile</a>
+        <a href="rental-history.html"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+        <a href="saved-vehicles.html"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+      </nav>
+      <div class="sidebar-user mt-auto">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="user-avatar">AJ</div>
+          <div>
+            <div class="user-name">Alex Johnson</div>
+            <div class="user-email">alex@example.com</div>
+          </div>
+        </div>
+        <button class="btn-signout">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="container">
+
+      <!-- Breadcrumb -->
+      <div class="od-breadcrumb">
+        <a href="home.html">Home</a>
+        <span>›</span>
+        <a href="fleet.html">Fleet</a>
+        <span>›</span>
+        Porsche 911 Carrera
+      </div>
+
+      <!-- Gallery -->
+      <div class="gallery-grid">
+        <div class="gallery-main">
+          <img id="mainGalleryImg" src="../assets/images/cars/porsche/exterior.avif"
+            alt="Porsche 911 Carrera exterior" />
+        </div>
+        <div class="gallery-thumb">
+          <img id="galleryThumb1" src="../assets/images/cars/porsche/Interior.avif"
+            alt="Porsche 911 Carrera interior" />
+        </div>
+        <div class="gallery-thumb">
+          <img id="galleryThumb2" src="../assets/images/cars/porsche/Back.jpg"
+            alt="Porsche 911 Carrera rear" />
+        </div>
+      </div>
+
+      <!-- Detail Layout -->
+      <div class="detail-layout">
+
+        <!-- LEFT -->
+        <div>
+          <div class="car-title-row">
+            <div>
+              <h1 id="carTitle" class="car-main-title">Porsche 911<br>Carrera</h1>
+              <p id="carTagline" class="car-tagline">Pure, uncompromising sports car perfection.</p>
+            </div>
+            <button id="favBtn" class="btn-fav" onclick="toggleFav()" aria-label="Save to favourites">
+              <span class="material-symbols-outlined" id="favIcon">favorite</span>
+            </button>
+          </div>
+
+          <div class="tag-row">
+            <span id="fuelBadge" class="od-tag petrol">⛽ Petrol</span>
+            <span id="seatsBadge" class="od-tag seats">2+2 Seats</span>
+            <span id="transmissionBadge" class="od-tag bags">PDK</span>
+          </div>
+
+          <p id="carDescription" class="car-description">The Porsche 911 Carrera is the definitive sports car — an icon refined over six
+            decades without ever losing its soul. With a 3.0L twin-turbocharged flat-six delivering 379 horsepower,
+            rear-wheel drive, and the legendary PDK transmission, every corner becomes a conversation between driver
+            and machine.</p>
+
+          <!-- Specs -->
+          <div class="specs-section">
+            <p class="specs-label">Performance Specifications</p>
+            <div class="specs-grid">
+              <div class="spec-box">
+                <span id="specZeroSixty" class="spec-box-value">3.5</span>
+                <span class="spec-box-unit">seconds</span>
+                <span class="spec-box-label">0–60 mph</span>
+              </div>
+              <div class="spec-box">
+                <span id="specTopSpeed" class="spec-box-value">182</span>
+                <span class="spec-box-unit">mph</span>
+                <span class="spec-box-label">Top Speed</span>
+              </div>
+              <div class="spec-box">
+                <span id="specPower" class="spec-box-value">379</span>
+                <span class="spec-box-unit">hp</span>
+                <span class="spec-box-label">Power</span>
+              </div>
+              <div class="spec-box">
+                <span id="specDrivetrain" class="spec-box-value">RWD</span>
+                <span class="spec-box-unit">flat-six</span>
+                <span class="spec-box-label">Drivetrain</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Perks -->
+          <div class="perks-section">
+            <p class="specs-label">Included with Every Booking</p>
+            <div class="perk-list">
+              <div class="perk-item">
+                <span class="material-symbols-outlined">shield</span>
+                <span class="label">Premium Insurance</span>
+              </div>
+              <div class="perk-item">
+                <span class="material-symbols-outlined">support_agent</span>
+                <span class="label">24/7 Roadside Assist</span>
+              </div>
+              <div class="perk-item">
+                <span class="material-symbols-outlined">speed</span>
+                <span class="label">Sport Chrono Package</span>
+              </div>
+              <div class="perk-item">
+                <span class="material-symbols-outlined">local_car_wash</span>
+                <span class="label">Full Detail on Pickup</span>
+              </div>
+              <div class="perk-item">
+                <span class="material-symbols-outlined">wifi</span>
+                <span class="label">In-car Wi-Fi</span>
+              </div>
+              <div class="perk-item">
+                <span class="material-symbols-outlined">navigation</span>
+                <span class="label">Google Maps Built-in</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Booking Sidebar -->
+        <div class="booking-sidebar">
+          <div class="booking-card">
+            <div class="booking-card-header">
+              <div id="bookingPrice" class="booking-price-big">$350 <span>/ day</span></div>
+              <div class="booking-rating">
+                <span class="stars">★★★★★</span>
+                <span class="count">4.9 · 128 rentals</span>
+              </div>
+            </div>
+
+            <div class="booking-card-body">
+              <a id="bookButton" href="booking-flow.html" class="btn-book">
+                Book This Car
+                <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+              </a>
+
+              <p class="booking-note">
+                <span class="material-symbols-outlined">lock</span>
+                Free cancellation up to 48 hrs before pickup
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Similar Cars -->
+    <!-- <div class="container">
+      <div class="similar-section">
+        <p
+          style="font-family:'Manrope',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brand-red);margin-bottom:8px;">
+          You Might Also Like</p>
+        <h2 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:1.6rem;letter-spacing:-.03em;margin:0;">
+          Similar Vehicles</h2>
+        <div id="similarGrid" class="similar-grid"></div>
+      </div>
+    </div> -->
+
+    <!-- Footer -->
+    <footer class="od-footer">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+          <span class="od-footer-logo">outDrive</span>
+          <nav class="od-footer-links">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </nav>
+          <span class="od-footer-copy">© 2026 outDrive. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/user-data.js"></script>
+  <script>
+    let carData = null;
+
+    async function toggleFav() {
+      const token = localStorage.getItem('authToken');
+      if (!token) { window.location.href = 'signin.html'; return; }
+      const carId = getQueryParam('carId');
+      if (!carId) return;
+
+      const btn = document.getElementById('favBtn');
+      btn.disabled = true;
+
+      try {
+        const resp = await fetch(getApiUrl(`/api/auth/saved-vehicles/${carId}`), {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          console.error('Save vehicle failed:', err.message || resp.status);
+          btn.disabled = false;
+          return;
+        }
+        const data = await resp.json();
+        btn.classList.toggle('saved', data.saved);
+        btn.setAttribute('aria-label', data.saved ? 'Remove from favourites' : 'Save to favourites');
+
+        const stored = localStorage.getItem('authUser');
+        if (stored) {
+          const authUser = JSON.parse(stored);
+          authUser.savedVehicles = authUser.savedVehicles || [];
+          if (data.saved) {
+            if (carData && !authUser.savedVehicles.some(v => v._id === carId)) {
+              authUser.savedVehicles.push(carData);
+            }
+          } else {
+            authUser.savedVehicles = authUser.savedVehicles.filter(v => v._id !== carId);
+          }
+          localStorage.setItem('authUser', JSON.stringify(authUser));
+        }
+      } catch (err) {
+        console.error('Toggle save error:', err);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function getQueryParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    function getApiUrl(path) { return path; }
+
+    function assetPath(src) {
+      return src.startsWith('cars/') ? `../assets/images/${src}` : src;
+    }
+
+    function createSimilarCard(car) {
+      const card = document.createElement('a');
+      card.href = `car-details.html?carId=${car._id}`;
+      card.className = 'mini-card';
+      card.innerHTML = `
+        <img src="${assetPath(car.images?.[0] || 'cars/temp/bmw m4 competition.avif')}" alt="${car.name}" loading="lazy" />
+        <div class="mini-card-body">
+          <div class="mini-card-name">${car.name}</div>
+          <div class="mini-card-price">$${car.pricePerDay} <span>/ day</span></div>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderSimilarCars(car, list) {
+      const similarGrid = document.getElementById('similarGrid');
+      similarGrid.innerHTML = '';
+      const similarCars = list
+        .filter(candidate => candidate._id !== car._id)
+        .slice(0, 3);
+
+      if (similarCars.length === 0) {
+        similarGrid.innerHTML = '<p class="empty-state-message">No similar vehicles available.</p>';
+        return;
+      }
+
+      similarCars.forEach(similarCar => similarGrid.appendChild(createSimilarCard(similarCar)));
+    }
+
+    async function loadCarDetails() {
+      const carId = getQueryParam('carId');
+      if (!carId) return;
+
+      try {
+        const response = await fetch(getApiUrl(`/api/cars/${carId}`));
+        if (!response.ok) throw new Error('Unable to load car details');
+        const data = await response.json();
+        const car = data.car;
+        if (!car) return;
+        carData = car;
+
+        const breadcrumb = document.querySelector('.od-breadcrumb');
+        if (breadcrumb) {
+          breadcrumb.innerHTML = `<a href="home.html">Home</a><span>›</span><a href="fleet.html">Fleet</a><span>›</span>${car.name}`;
+        }
+
+        document.title = `${car.name} | outDrive`;
+        document.getElementById('mainGalleryImg').src = assetPath(car.images?.[0] || 'cars/temp/bmw m4 competition.avif');
+        document.getElementById('galleryThumb1').src = assetPath(car.images?.[1] || car.images?.[0] || 'cars/temp/bmw m4 competition.avif');
+        document.getElementById('galleryThumb2').src = assetPath(car.images?.[2] || car.images?.[0] || 'cars/temp/bmw m4 competition.avif');
+        document.getElementById('carTitle').innerHTML = car.name.replace(/\s+/g, '<br>');
+        document.getElementById('carTagline').textContent = car.description || `${car.name} is ready for your next adventure.`;
+        document.getElementById('fuelBadge').innerHTML = car.fuelType === 'Electric' ? '⚡ ' + car.fuelType : '⛽ ' + car.fuelType;
+        document.getElementById('seatsBadge').textContent = `${car.seats} Seats`;
+        document.getElementById('transmissionBadge').textContent = car.transmission;
+        document.getElementById('carDescription').textContent = car.description || '';
+        document.getElementById('specZeroSixty').textContent = car.zeroToSixty || '—';
+        document.getElementById('specTopSpeed').textContent = car.topSpeed || '—';
+        document.getElementById('specPower').textContent = car.power || '—';
+        document.getElementById('specDrivetrain').textContent = car.drivetrain || '—';
+        document.getElementById('bookingPrice').innerHTML = `$${car.pricePerDay} <span>/ day</span>`;
+        const authUserStr = localStorage.getItem('authUser');
+        if (authUserStr) {
+          const authUser = JSON.parse(authUserStr);
+          const isSaved = (authUser.savedVehicles || []).some(v => v._id === car._id);
+          if (isSaved) {
+            document.getElementById('favBtn').classList.add('saved');
+            document.getElementById('favBtn').setAttribute('aria-label', 'Remove from favourites');
+          }
+        }
+
+        const bookButton = document.getElementById('bookButton');
+        const signedInUser = localStorage.getItem('authUser');
+        if (!signedInUser) {
+          bookButton.href = 'signin.html';
+          bookButton.textContent = 'Sign in to Book';
+          bookButton.innerHTML += ' <span class="material-symbols-outlined">arrow_forward</span>';
+        } else {
+          bookButton.href = `booking-flow.html?carId=${car._id}`;
+        }
+
+        try {
+          const similarResponse = await fetch(`/api/cars?type=${encodeURIComponent(car.type)}`);
+          if (similarResponse.ok) {
+            const similarData = await similarResponse.json();
+            renderSimilarCars(car, similarData.cars || []);
+          }
+        } catch (fetchError) {
+          console.error('Unable to load similar vehicles', fetchError);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    loadCarDetails();
+  </script>
+</body>
+
+</html>

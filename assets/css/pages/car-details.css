@@ -1,0 +1,531 @@
+/* ── Car Details Page ───────────────────────────────────────── */
+
+/* ── Breadcrumb ── */
+.od-breadcrumb {
+  padding: 18px 0 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.od-breadcrumb a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color .15s;
+}
+
+.od-breadcrumb a:hover {
+  color: var(--brand-red);
+}
+
+.od-breadcrumb span {
+  margin: 0 8px;
+}
+
+/* ── Gallery ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 240px 240px;
+  gap: 12px;
+  margin: 20px 0 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.gallery-main {
+  grid-row: 1 / 3;
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s;
+}
+
+.gallery-main:hover img {
+  transform: scale(1.03);
+}
+
+.gallery-thumb {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s;
+}
+
+.gallery-thumb:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background .3s;
+}
+
+.gallery-thumb:hover::after {
+  background: rgba(0, 0, 0, .08);
+}
+
+@media (max-width: 767px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 220px 160px 160px;
+  }
+
+  .gallery-main {
+    grid-row: 1/2;
+  }
+}
+
+/* ── Layout ── */
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 36px;
+  align-items: start;
+  padding: 40px 0 80px;
+}
+
+@media (max-width: 991px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Left column ── */
+.car-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.btn-fav {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  line-height: 1;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-fav .material-symbols-outlined {
+  font-size: 22px;
+  color: var(--text-muted);
+  font-variation-settings: 'FILL' 0;
+  transition: color 0.2s, font-variation-settings 0.2s;
+}
+
+.btn-fav.saved .material-symbols-outlined {
+  color: #a6001f;
+  font-variation-settings: 'FILL' 1;
+}
+
+.car-main-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.car-tagline {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.tag-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.od-tag {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.od-tag.electric {
+  background: rgba(58, 97, 135, 0.09);
+  color: var(--brand-blue);
+}
+
+.od-tag.seats {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-muted);
+}
+
+.od-tag.bags {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-muted);
+}
+
+/* Specs grid */
+.specs-section {
+  margin-bottom: 36px;
+}
+
+.specs-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 575px) {
+  .specs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.spec-box {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 18px 16px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.spec-box-value {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  display: block;
+}
+
+.spec-box-unit {
+  font-size: 0.7rem;
+  color: var(--brand-red);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 2px;
+}
+
+.spec-box-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  display: block;
+}
+
+/* Perks */
+.perks-section {
+  margin-bottom: 36px;
+}
+
+.perk-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 575px) {
+  .perk-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.perk-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: var(--shadow-card);
+}
+
+.perk-item .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--brand-red);
+  font-variation-settings: 'FILL' 1;
+  flex-shrink: 0;
+}
+
+.perk-item span.label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Description */
+.car-description {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+/* ── Right sticky sidebar ── */
+.booking-sidebar {
+  position: sticky;
+  top: 88px;
+}
+
+.booking-card {
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.booking-card-header {
+  background: var(--text-primary);
+  padding: 22px 24px 20px;
+}
+
+.booking-price-big {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #fff;
+  letter-spacing: -0.04em;
+}
+
+.booking-price-big span {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0;
+}
+
+.booking-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.booking-rating .stars {
+  color: #f5b400;
+  font-size: 0.8rem;
+}
+
+.booking-rating .count {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.booking-card-body {
+  padding: 22px 24px;
+}
+
+.booking-field {
+  margin-bottom: 14px;
+}
+
+.booking-field label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.booking-field .form-control,
+.booking-field .form-select {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  background: var(--bg);
+  transition: border-color .18s, box-shadow .18s;
+}
+
+.booking-field .form-control:focus,
+.booking-field .form-select:focus {
+  border-color: var(--brand-red);
+  box-shadow: 0 0 0 3px rgba(166, 0, 31, .1);
+  outline: none;
+}
+
+.booking-summary {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 16px 0;
+  font-size: 0.8375rem;
+}
+
+.booking-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  color: var(--text-muted);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+}
+
+.booking-summary-row.total {
+  border-top: 1px solid var(--border);
+  margin-top: 6px;
+  padding-top: 10px;
+  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 0.9375rem;
+}
+
+.btn-book {
+  width: 100%;
+  padding: 15px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  background: linear-gradient(135deg, #c0001f 0%, #a6001f 60%, #840019 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  letter-spacing: .01em;
+  cursor: pointer;
+  transition: opacity .18s, transform .18s;
+  box-shadow: 0 6px 20px rgba(166, 0, 31, .3);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-book:hover {
+  opacity: .9;
+  transform: translateY(-1px);
+  color: #fff;
+}
+
+.booking-note {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.booking-note .material-symbols-outlined {
+  font-size: 13px;
+}
+
+/* ── Similar Cars ── */
+.similar-section {
+  padding: 60px 0 80px;
+  border-top: 1px solid var(--border);
+}
+
+.similar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 28px;
+}
+
+@media (max-width: 991px) {
+  .similar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575px) {
+  .similar-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mini-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: transform .22s, box-shadow .22s;
+}
+
+.mini-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  color: inherit;
+}
+
+.mini-card img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.mini-card-body {
+  padding: 14px 16px 16px;
+}
+
+.mini-card-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: .9rem;
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+
+.mini-card-price {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+
+.mini-card-price span {
+  font-size: .72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}

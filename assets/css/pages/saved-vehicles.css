@@ -1,0 +1,207 @@
+/* ── Saved Vehicles Page ─────────────────────────────────────── */
+
+/* Saved grid */
+.saved-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1199px) {
+  .saved-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575px) {
+  .saved-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.saved-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform .25s, box-shadow .25s;
+  position: relative;
+}
+
+.saved-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.saved-img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.saved-img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s;
+}
+
+.saved-card:hover .saved-img {
+  transform: scale(1.04);
+}
+
+.saved-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-family: 'Manrope', sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  background: rgba(255, 255, 255, .92);
+  padding: 3px 9px;
+  border-radius: 5px;
+}
+
+.btn-unsave {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .18s, transform .18s;
+}
+
+.btn-unsave:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+
+.btn-unsave .material-symbols-outlined {
+  font-size: 17px;
+  color: var(--brand-red);
+  font-variation-settings: 'FILL' 1;
+}
+
+.saved-body {
+  padding: 16px 18px 18px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.saved-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: .9375rem;
+  letter-spacing: -.02em;
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.saved-specs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.saved-spec {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+
+.saved-spec .material-symbols-outlined {
+  font-size: 13px;
+}
+
+.saved-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  min-width: 0;
+}
+
+.saved-price-row > .saved-price {
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.saved-price-row > .btn-book-now {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.saved-price {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -.03em;
+}
+
+.saved-price span {
+  font-size: .72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0;
+}
+
+.btn-book-now {
+  font-family: 'Manrope', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--brand-red);
+  border: none;
+  padding: 7px 14px;
+  border-radius: 7px;
+  text-decoration: none;
+  transition: background .18s;
+}
+
+.btn-book-now:hover {
+  background: var(--brand-red-dark);
+  color: #fff;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 80px 0;
+}
+
+.empty-state .material-symbols-outlined {
+  font-size: 56px;
+  color: var(--border);
+  display: block;
+  margin-bottom: 16px;
+}
+
+.empty-state-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.empty-state-sub {
+  color: var(--text-muted);
+  font-size: .875rem;
+  margin-bottom: 24px;
+}

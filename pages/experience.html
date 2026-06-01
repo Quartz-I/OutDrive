@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <!-- Font Awesome (social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/shared/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/shared/offcanvas.css" />
+  <link rel="stylesheet" href="../assets/css/shared/footer.css" />
+  <link rel="stylesheet" href="../assets/css/shared/reveal.css" />
+  <link rel="stylesheet" href="../assets/css/pages/experience.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="od-navbar">
+    <div class="container-fluid">
+      <button class="btn-hamburger" data-nav-open aria-label="Open navigation">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <a href="home.html" class="od-logo">outDrive</a>
+      <div class="od-nav-center">
+        <a href="fleet.html" class="od-nav-link">Fleet</a>
+        <a href="locations.html" class="od-nav-link">Locations</a>
+        <a href="experience.html" class="od-nav-link active">Experience</a>
+      </div>
+      <div class="od-nav-right">
+        <a href="signin.html" class="btn-signin">Sign In</a>
+        <a href="fleet.html" class="btn-booknow">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Offcanvas -->
+  <div id="navOverlay" class="od-nav-overlay"></div>
+  <div class="od-offcanvas" id="sidebarMenu">
+    <div class="od-offcanvas-header">
+      <span class="od-offcanvas-logo">outDrive</span>
+      <button class="od-offcanvas-close" data-nav-close aria-label="Close navigation">&times;</button>
+    </div>
+    <div class="od-offcanvas-body">
+      <nav class="sidebar-nav">
+        <a href="profile.html"><span class="material-symbols-outlined">person</span>Profile</a>
+        <a href="rental-history.html"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+        <a href="saved-vehicles.html"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+      </nav>
+      <div class="sidebar-user mt-auto">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="user-avatar">GU</div>
+          <div>
+            <div class="user-name">Guest</div>
+            <div class="user-email">Guest@example.com</div>
+          </div>
+        </div>
+        <button class="btn-signout">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+
+    <!-- Cinematic Hero -->
+    <section class="exp-hero">
+      <div class="exp-hero-bg"></div>
+      <div class="exp-hero-overlay"></div>
+      <div class="exp-hero-content">
+        <div class="container">
+          <p class="exp-hero-tag">The outDrive Journal</p>
+          <h1 class="exp-hero-title">The Art<br>of Motion.</h1>
+          <p class="exp-hero-sub">Stories from the road. Perspectives on performance. The culture of driving, curated
+            for those who care about every mile.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story Blocks -->
+    <section class="story-section">
+      <div class="container">
+
+        <!-- Story 1 -->
+        <div class="story-block reveal">
+          <div class="story-img-wrap">
+            <img src="../assets/images/cars/porsche/exterior.avif" alt="Porsche on open road" />
+          </div>
+          <div class="story-text">
+            <span class="story-number">01</span>
+            <p class="story-eyebrow">The Machine</p>
+            <h2 class="story-title">Why the Porsche 911 Remains the Benchmark</h2>
+            <p class="story-body">Six decades after its debut, the 911 still defines what a sports car should be. We
+              drove the latest Carrera from Malibu to Big Sur to understand why some designs transcend their era — and
+              why the rear-engine layout that Porsche's own engineers wanted to abandon is still the soul of the car.
+            </p>
+            <a href="https://www.porschelincolnwood.com/blogs/3305/porsche-911-defines-modern-sports-car/"
+              class="story-link" target="_blank" rel="noopener noreferrer">Read More <span
+                class="material-symbols-outlined">arrow_forward</span></a>
+          </div>
+        </div>
+
+        <!-- Story 2 (reversed) -->
+        <div class="story-block reverse reveal" style="transition-delay:.1s">
+          <div class="story-img-wrap">
+            <img src="../assets/images/cars/lucid/exterior.jpg" alt="Electric vehicle charging" />
+          </div>
+          <div class="story-text">
+            <span class="story-number">02</span>
+            <p class="story-eyebrow">The Future</p>
+            <h2 class="story-title">Silence is the New Sound of Speed</h2>
+            <p class="story-body">The luxury EV isn't just about eliminating emissions — it's about redefining what
+              premium feels like. We spent a week in the Lucid Air to understand how the absence of noise creates a new
+              kind of presence, and what it means for the future of high-performance motoring.</p>
+            <a href="https://www.caranddriver.com/lucid/air" class="story-link" target="_blank"
+              rel="noopener noreferrer">Read More <span class="material-symbols-outlined">arrow_forward</span></a>
+          </div>
+        </div>
+
+        <!-- Story 3 -->
+        <div class="story-block reveal" style="transition-delay:.2s">
+          <div class="story-img-wrap">
+            <img src="../assets/images/cars/range-rover/exterior.webp" alt="Range Rover in landscape" />
+          </div>
+          <div class="story-text">
+            <span class="story-number">03</span>
+            <p class="story-eyebrow">The Journey</p>
+            <h2 class="story-title">Off-Road Luxury: A Contradiction Worth Exploring</h2>
+            <p class="story-body">True luxury isn't just about what you have — it's about where you can go. We took the
+              Range Rover Evoque off the beaten path to test whether genuine off-road capability and handcrafted
+              British luxury can truly coexist. Spoiler: they can, and remarkably so.</p>
+            <a href="https://carbuzz.com/luxury-suvs-with-the-best-off-road-capability/" class="story-link"
+              target="_blank" rel="noopener noreferrer">Read More
+              <span class="material-symbols-outlined">arrow_forward</span></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Pull Quote -->
+    <section class="pullquote-section">
+      <div class="container">
+        <p class="pullquote-text reveal">"The destination is never just a place. It's a state of mind arrived at through
+          the quality of the journey — and the machine that carried you there."</p>
+        <p class="pullquote-attr reveal" style="transition-delay:.15s">— The outDrive Philosophy</p>
+      </div>
+    </section>
+
+    <!-- Article Cards -->
+    <section class="articles-section">
+      <div class="container">
+        <div class="articles-header reveal">
+          <p class="section-eyebrow">From the Journal</p>
+          <h2 class="section-title">Further Reading</h2>
+        </div>
+
+        <div class="articles-grid">
+
+          <a href="https://www.caranddriver.com/bmw/m4" class="article-card reveal" target="_blank"
+            rel="noopener noreferrer">
+            <div class="article-img-wrap">
+              <img src="../assets/images/cars/bmw/exterior.jpg" alt="BMW M4" loading="lazy" />
+              <span class="article-cat">Performance</span>
+            </div>
+            <div class="article-body">
+              <div class="article-title">The BMW M4 Competition: Track DNA for the Street</div>
+              <div class="article-meta">
+                <span>5 min read</span>
+                <span class="article-read-more">Read More <span
+                    class="material-symbols-outlined">arrow_forward</span></span>
+              </div>
+            </div>
+          </a>
+
+          <a href="https://www.timeout.com/los-angeles/things-to-do/best-scenic-drives-in-los-angeles"
+            class="article-card reveal" style="transition-delay:.08s" target="_blank" rel="noopener noreferrer">
+            <div class="article-img-wrap">
+              <img src="../assets/images/cars/mercedes/exterior.avif" alt="Night drive" loading="lazy" />
+              <span class="article-cat">Lifestyle</span>
+            </div>
+            <div class="article-body">
+              <div class="article-title">The Best Night Drives in Los Angeles</div>
+              <div class="article-meta">
+                <span>4 min read</span>
+                <span class="article-read-more">Read More <span
+                    class="material-symbols-outlined">arrow_forward</span></span>
+              </div>
+            </div>
+          </a>
+
+          <a href="https://www.caranddriver.com/polestar/polestar-2" class="article-card reveal"
+            style="transition-delay:.16s" target="_blank" rel="noopener noreferrer">
+            <div class="article-img-wrap">
+              <img src="../assets/images/cars/polestar/exterior.jpg" alt="Car detail" loading="lazy" />
+              <span class="article-cat">Design</span>
+            </div>
+            <div class="article-body">
+              <div class="article-title">Inside the Polestar</div>
+              <div class="article-meta">
+                <span>6 min read</span>
+                <span class="article-read-more">Read More <span
+                    class="material-symbols-outlined">arrow_forward</span></span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="od-footer">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+          <span class="od-footer-logo">outDrive</span>
+          <nav class="od-footer-links">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </nav>
+          <span class="od-footer-copy">© 2026 outDrive. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/user-data.js"></script>
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+
+</html>

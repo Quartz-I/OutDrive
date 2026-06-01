@@ -1,0 +1,730 @@
+/* ── Booking Flow Page ──────────────────────────────────────── */
+/* Note: this page uses a stripped navbar (logo + back btn only).
+   navbar.css, offcanvas.css, and footer.css are NOT loaded.
+   All navbar, footer CSS lives here. */
+
+/* ── Stripped Navbar ── */
+.od-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  background: rgba(249, 249, 252, 0.82);
+  border-bottom: 1px solid var(--border);
+  height: 68px;
+}
+
+.od-navbar .container-fluid {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 32px;
+  gap: 16px;
+}
+
+.od-logo {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.45rem;
+  color: var(--brand-red);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
+}
+
+.od-logo:hover {
+  color: var(--brand-red-dark);
+}
+
+.od-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.btn-back {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: .875rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: color .18s, background .18s;
+}
+
+.btn-back:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, .04);
+}
+
+.btn-back .material-symbols-outlined {
+  font-size: 18px;
+  width: 18px;
+  min-width: 18px;
+  max-width: 18px;
+  height: 18px;
+}
+
+/* Page wrap — no top padding (progress bar handles offset) */
+.page-wrap {
+  padding-top: 0;
+}
+
+/* ── Progress Steps ── */
+.progress-bar-wrap {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  margin-top: 68px;
+}
+
+.steps-row {
+  display: flex;
+  align-items: stretch;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.step-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 8px 14px;
+  position: relative;
+  cursor: pointer;
+}
+
+.step-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background .25s;
+}
+
+.step-item.active::after {
+  background: var(--brand-red);
+}
+
+.step-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: .75rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+
+.step-item.active .step-circle {
+  border-color: var(--brand-red);
+  background: var(--brand-red);
+  color: #fff;
+}
+
+.step-item.done .step-circle {
+  border-color: #059669;
+  background: #059669;
+  color: #fff;
+}
+
+.step-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--text-muted);
+  text-align: center;
+  transition: color .2s;
+}
+
+.step-item.active .step-label {
+  color: var(--brand-red);
+}
+
+.step-item.done .step-label {
+  color: #059669;
+}
+
+/* Connector line */
+.step-connector {
+  flex-shrink: 0;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 14px;
+}
+
+.step-connector::before {
+  content: '';
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Main layout ── */
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  padding: 40px 0 80px;
+  align-items: start;
+}
+
+@media (max-width: 991px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Step panels ── */
+.step-panel {
+  display: none;
+}
+
+.step-panel.active {
+  display: block;
+}
+
+.panel-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -.03em;
+  margin-bottom: 4px;
+}
+
+.panel-sub {
+  font-size: .875rem;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  font-weight: 300;
+}
+
+/* Form */
+.form-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 24px 26px;
+  margin-bottom: 16px;
+}
+
+.form-card-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: .9375rem;
+  letter-spacing: -.02em;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-card-title .material-symbols-outlined {
+  color: var(--brand-red);
+  font-variation-settings: 'FILL' 1;
+  font-size: 20px;
+  width: 20px;
+  min-width: 20px;
+  max-width: 20px;
+  height: 20px;
+}
+
+.field-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 575px) {
+  .field-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field-wrap {
+  margin-bottom: 14px;
+}
+
+.field-wrap:last-child {
+  margin-bottom: 0;
+}
+
+.field-label {
+  display: block;
+  font-family: 'Manrope', sans-serif;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 7px;
+}
+
+.field-input,
+.field-select {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  font-family: 'Inter', sans-serif;
+  font-size: .875rem;
+  color: var(--text-primary);
+  background: var(--bg);
+  outline: none;
+  transition: border-color .18s, box-shadow .18s;
+}
+
+.field-input:focus,
+.field-select:focus {
+  border-color: var(--brand-red);
+  box-shadow: 0 0 0 3px rgba(166, 0, 31, .1);
+  background: #fff;
+}
+
+.field-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+/* Extras / addons */
+.extra-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color .18s, background .18s;
+}
+
+.extra-item.selected {
+  border-color: var(--brand-red);
+  background: rgba(166, 0, 31, .03);
+}
+
+.extra-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  background: rgba(166, 0, 31, .07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.extra-icon .material-symbols-outlined {
+  color: var(--brand-red);
+  font-size: 22px;
+  width: 22px;
+  min-width: 22px;
+  max-width: 22px;
+  height: 22px;
+  font-variation-settings: 'FILL' 1;
+}
+
+.extra-info {
+  flex: 1;
+}
+
+.extra-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: .9rem;
+  margin-bottom: 2px;
+}
+
+.extra-desc {
+  font-size: .78rem;
+  color: var(--text-muted);
+}
+
+.extra-price {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: .9rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.extra-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all .18s;
+}
+
+.extra-item.selected .extra-check {
+  background: var(--brand-red);
+  border-color: var(--brand-red);
+}
+
+.extra-item.selected .extra-check::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* Payment */
+.card-input-row {
+  position: relative;
+}
+
+.card-input-row .card-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.card-brand {
+  width: 28px;
+  height: 18px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .5rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+.card-brand.visa {
+  background: #1a1f71;
+  color: #fff;
+}
+
+.card-brand.mc {
+  background: linear-gradient(90deg, #eb001b 40%, #f79e1b 60%);
+}
+
+/* Navigation buttons */
+.step-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: flex-end;
+}
+
+.btn-prev {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: .875rem;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all .18s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-prev:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+}
+
+.btn-prev .material-symbols-outlined {
+  font-size: 17px;
+  width: 17px;
+  min-width: 17px;
+  max-width: 17px;
+  height: 17px;
+}
+
+.btn-next {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: .875rem;
+  color: #fff;
+  background: linear-gradient(135deg, #c0001f 0%, #a6001f 60%, #840019 100%);
+  border: none;
+  border-radius: 9px;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: opacity .18s, transform .15s;
+  box-shadow: 0 4px 14px rgba(166, 0, 31, .25);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-next:hover {
+  opacity: .9;
+  transform: translateY(-1px);
+}
+
+.btn-next .material-symbols-outlined {
+  font-size: 17px;
+  width: 17px;
+  min-width: 17px;
+  max-width: 17px;
+  height: 17px;
+}
+
+/* ── Order Summary Sidebar ── */
+.order-sidebar {
+  position: sticky;
+  top: 88px;
+}
+
+.order-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.order-car-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+}
+
+.order-body {
+  padding: 20px 22px;
+}
+
+.order-car-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -.02em;
+  margin-bottom: 14px;
+}
+
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .8375rem;
+  padding: 5px 0;
+  color: var(--text-muted);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+}
+
+.order-row.total {
+  border-top: 1.5px solid var(--border);
+  margin-top: 8px;
+  padding-top: 12px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+
+.order-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}
+
+.order-extras-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 12px 0 8px;
+}
+
+.order-extra-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .8rem;
+  padding: 3px 0;
+  color: var(--text-muted);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+}
+
+.order-extra-row .material-symbols-outlined {
+  font-size: 14px;
+  width: 14px;
+  min-width: 14px;
+  max-width: 14px;
+  height: 14px;
+  color: var(--brand-red);
+}
+
+.secure-note {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .75rem;
+  color: var(--text-muted);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.secure-note .material-symbols-outlined {
+  font-size: 15px;
+  width: 15px;
+  min-width: 15px;
+  max-width: 15px;
+  height: 15px;
+}
+
+/* ── Step 4: Review ── */
+.review-section {
+  margin-bottom: 20px;
+}
+
+.review-section-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--brand-red);
+  margin-bottom: 10px;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 575px) {
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.review-item-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.review-item-value {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: .9rem;
+  color: var(--text-primary);
+}
+
+.terms-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.terms-row input {
+  accent-color: var(--brand-red);
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.terms-row span {
+  font-size: .8125rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.terms-row a {
+  color: var(--brand-red);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ── Footer (included here since footer.css is not loaded) ── */
+.od-footer {
+  background: #0a0b0d;
+  padding: 40px 0 32px;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+}
+
+.od-footer-logo {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--brand-red);
+  letter-spacing: -0.5px;
+}
+
+.od-footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.od-footer-links a {
+  font-size: 1.35rem;
+  color: rgba(255, 255, 255, .45);
+  text-decoration: none;
+  transition: color .18s;
+}
+
+.od-footer-links a:hover {
+  color: rgba(255, 255, 255, .8);
+}
+
+.od-footer-copy {
+  font-size: .78rem;
+  color: rgba(255, 255, 255, .28);
+}
+
+@media (max-width: 767px) {
+  .step-label {
+    display: none;
+  }
+}

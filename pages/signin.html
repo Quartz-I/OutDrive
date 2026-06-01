@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/layouts/auth.css" />
+  <link rel="stylesheet" href="../assets/css/pages/signin.css" />
+</head>
+
+<body>
+  <div class="auth-wrap">
+
+    <!-- Left: Form -->
+    <div class="auth-form-side">
+      <div class="auth-form-inner">
+
+        <a href="home.html" class="auth-logo">outDrive</a>
+
+        <h1 class="auth-title">Welcome back.</h1>
+        <p class="auth-subtitle">Sign in to access your bookings and saved vehicles.</p>
+
+        <!-- Error banner -->
+        <div class="auth-error" id="authError">
+          <span class="material-symbols-outlined">error</span>
+          <span id="authErrorMsg">Invalid email or password.</span>
+        </div>
+
+        <form onsubmit="handleSignIn(event)">
+          <div class="field-wrap">
+            <label for="email">Email Address</label>
+            <div class="field-input-wrap">
+              <span class="material-symbols-outlined">mail</span>
+              <input type="email" class="auth-input" id="email" placeholder="you@example.com" required
+                autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="field-wrap">
+            <label for="password">Password</label>
+            <div class="field-input-wrap">
+              <span class="material-symbols-outlined">lock</span>
+              <input type="password" class="auth-input" id="password" placeholder="••••••••" required
+                autocomplete="current-password" />
+            </div>
+            <div class="field-hint-row">
+              <button type="button" class="forgot-link" onclick="openForgotPassword()">Forgot password?</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-auth-submit">Sign In</button>
+        </form>
+
+        <p class="auth-footer-link">
+          Not a member? <a href="signup.html">Sign Up</a>
+        </p>
+
+      </div>
+    </div>
+
+    <!-- Right: Image -->
+    <div class="auth-image">
+      <div class="auth-image-bg"></div>
+      <div class="auth-image-overlay"></div>
+      <div class="auth-image-content">
+        <p class="auth-image-quote">"Every great journey begins with a single decision."</p>
+        <p class="auth-image-sub">outDrive · Premium Vehicle Rentals · Los Angeles</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Forgot-password modal -->
+  <div class="fp-overlay" id="fpOverlay">
+    <div class="fp-modal">
+      <button class="fp-close" onclick="closeForgotPassword()">&times;</button>
+      <h2 class="fp-title">Reset Password</h2>
+      <p class="fp-subtitle">Enter your email and choose a new password.</p>
+
+      <div class="auth-error" id="fpError">
+        <span class="material-symbols-outlined">error</span>
+        <span id="fpErrorMsg"></span>
+      </div>
+      <div class="fp-success" id="fpSuccess">
+        <span class="material-symbols-outlined">check_circle</span>
+        <span>Password updated. You can now sign in.</span>
+      </div>
+
+      <div class="field-wrap">
+        <label for="fpEmail">Email Address</label>
+        <div class="field-input-wrap">
+          <span class="material-symbols-outlined">mail</span>
+          <input type="email" class="auth-input" id="fpEmail" placeholder="you@example.com" autocomplete="email" />
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label for="fpPassword">New Password</label>
+        <div class="field-input-wrap">
+          <span class="material-symbols-outlined">lock</span>
+          <input type="password" class="auth-input" id="fpPassword" placeholder="••••••••" autocomplete="new-password" />
+        </div>
+      </div>
+
+      <button type="button" class="btn-auth-submit" onclick="handleForgotPassword()">Update Password</button>
+    </div>
+  </div>
+
+  <script src="../assets/js/user-data.js"></script>
+  <script>
+    const API_URL = '/api/auth';
+
+    function openForgotPassword() {
+      document.getElementById('fpOverlay').classList.add('visible');
+      document.getElementById('fpError').classList.remove('visible');
+      document.getElementById('fpSuccess').classList.remove('visible');
+      document.getElementById('fpEmail').value = '';
+      document.getElementById('fpPassword').value = '';
+    }
+
+    function closeForgotPassword() {
+      document.getElementById('fpOverlay').classList.remove('visible');
+    }
+
+    document.getElementById('fpOverlay').addEventListener('click', function (e) {
+      if (e.target === this) closeForgotPassword();
+    });
+
+    async function handleForgotPassword() {
+      const email = document.getElementById('fpEmail').value.trim();
+      const newPassword = document.getElementById('fpPassword').value;
+      const errEl = document.getElementById('fpError');
+      const errMsg = document.getElementById('fpErrorMsg');
+      const successEl = document.getElementById('fpSuccess');
+
+      errEl.classList.remove('visible');
+      successEl.classList.remove('visible');
+
+      if (!email) {
+        errMsg.textContent = 'Please enter your email address.';
+        errEl.classList.add('visible');
+        return;
+      }
+      if (newPassword.length < 8) {
+        errMsg.textContent = 'New password must be at least 8 characters.';
+        errEl.classList.add('visible');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/reset-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, newPassword }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          errMsg.textContent = data.message || 'Unable to reset password.';
+          errEl.classList.add('visible');
+          return;
+        }
+        successEl.classList.add('visible');
+        setTimeout(closeForgotPassword, 2000);
+      } catch {
+        errMsg.textContent = 'Server error. Please try again later.';
+        errEl.classList.add('visible');
+      }
+    }
+
+    async function handleSignIn(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+      const err = document.getElementById('authError');
+
+      err.classList.remove('visible');
+
+      if (!email || pass.length < 8) {
+        err.classList.add('visible');
+        document.getElementById('authErrorMsg').textContent = pass.length < 8
+          ? 'Password must be at least 8 characters.'
+          : 'Invalid email or password. Please try again.';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/signin`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email,
+            password: pass,
+          }),
+        });
+
+        const data = await response.json();
+      if (!response.ok) {
+        err.classList.add('visible');
+        document.getElementById('authErrorMsg').textContent = data.message || 'Unable to sign in.';
+        return;
+      }
+
+      localStorage.setItem('authToken', data.token);
+      localStorage.setItem('authUser', JSON.stringify(data.user));
+      window.location.href = 'home.html';
+    } catch (error) {
+        console.error('Signin request failed:', error);
+        err.classList.add('visible');
+        document.getElementById('authErrorMsg').textContent = 'Server error. Please try again later.';
+      }
+    }
+  </script>
+</body>
+
+</html>

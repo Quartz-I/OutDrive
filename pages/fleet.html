@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Fleet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <!-- Font Awesome (social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/shared/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/shared/offcanvas.css" />
+  <link rel="stylesheet" href="../assets/css/shared/footer.css" />
+  <link rel="stylesheet" href="../assets/css/shared/reveal.css" />
+  <link rel="stylesheet" href="../assets/css/pages/fleet.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="od-navbar">
+    <div class="container-fluid">
+      <button class="btn-hamburger" data-nav-open aria-label="Open navigation">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <a href="home.html" class="od-logo">outDrive</a>
+      <div class="od-nav-center">
+        <a href="fleet.html" class="od-nav-link active">Fleet</a>
+        <a href="locations.html" class="od-nav-link">Locations</a>
+        <a href="experience.html" class="od-nav-link">Experience</a>
+      </div>
+      <div class="od-nav-right">
+        <a href="signin.html" class="btn-signin">Sign In</a>
+        <a href="fleet.html" class="btn-booknow">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Offcanvas Sidebar -->
+  <div id="navOverlay" class="od-nav-overlay"></div>
+  <div class="od-offcanvas" id="sidebarMenu">
+    <div class="od-offcanvas-header">
+      <span class="od-offcanvas-logo">outDrive</span>
+      <button class="od-offcanvas-close" data-nav-close aria-label="Close navigation">&times;</button>
+    </div>
+    <div class="od-offcanvas-body">
+      <nav class="sidebar-nav">
+        <a href="profile.html"><span class="material-symbols-outlined">person</span>Profile</a>
+        <a href="rental-history.html"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+        <a href="saved-vehicles.html"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+      </nav>
+      <div class="sidebar-user mt-auto">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="user-avatar">GU</div>
+          <div>
+            <div class="user-name">Guest</div>
+            <div class="user-email">Guest@gmail.com</div>
+          </div>
+        </div>
+        <button class="btn-signout">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <!-- Toolbar -->
+    <div class="fleet-toolbar">
+      <div class="container">
+        <div class="d-flex align-items-center gap-3">
+          <div class="search-input-wrap">
+            <span class="material-symbols-outlined">search</span>
+            <input type="text" class="search-input" placeholder="Search model" id="searchInput" />
+          </div>
+          <select class="sort-select" id="sortSelect">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+          </select>
+          <span class="results-count" id="resultsCount">6 vehicles</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container py-5">
+      <div class="d-flex gap-4 align-items-start">
+
+        <!-- Filter Sidebar -->
+        <aside class="filter-sidebar">
+          <div class="filter-panel">
+            <div class="filter-header">
+              <span class="filter-title">Filters</span>
+              <button class="btn-clear" id="clearFilters">Clear All</button>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-group-label">Vehicle Type</span>
+              <div class="filter-chip-wrap">
+                <span class="filter-chip" data-filter="type" data-value="Sports">Sports</span>
+                <span class="filter-chip" data-filter="type" data-value="Electric">Electric</span>
+                <span class="filter-chip" data-filter="type" data-value="SUV">SUV</span>
+                <span class="filter-chip" data-filter="type" data-value="Sedan">Sedan</span>
+                <span class="filter-chip" data-filter="type" data-value="Luxury">Luxury</span>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-group-label">Price Range</span>
+              <div class="price-range-display">
+                <span>$0</span>
+                <span id="priceLabel">up to $500</span>
+              </div>
+              <input type="range" min="100" max="500" value="500" step="25" id="priceSlider" />
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-group-label">Seats</span>
+              <div class="filter-chip-wrap">
+                <span class="filter-chip" data-filter="seats" data-value="2">2</span>
+                <span class="filter-chip" data-filter="seats" data-value="4">4</span>
+                <span class="filter-chip" data-filter="seats" data-value="5">5</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Cars Grid -->
+        <div class="flex-grow-1">
+          <div class="cars-grid" id="carsGrid"></div>
+
+          <!-- Empty state -->
+          <div id="emptyState" style="display:none; text-align:center; padding:80px 0;">
+            <span class="material-symbols-outlined"
+              style="font-size:48px;color:var(--text-muted);display:block;margin-bottom:16px;">search_off</span>
+            <p style="font-family:'Manrope',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:8px;">No vehicles
+              match your filters</p>
+            <p style="color:var(--text-muted);font-size:.875rem;">Try adjusting or clearing your filters.</p>
+            <button class="btn-clear" style="font-size:.875rem;margin-top:8px;" onclick="clearAll()">Clear
+              Filters</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="od-footer">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+          <span class="od-footer-logo">outDrive</span>
+          <nav class="od-footer-links">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </nav>
+          <span class="od-footer-copy">© 2026 outDrive. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/user-data.js"></script>
+  <script>
+    let carsData = [];
+    let activeFilters = { type: null, seats: null, price: 500 };
+    const grid = document.getElementById('carsGrid');
+    const priceSlider = document.getElementById('priceSlider');
+    const priceLabel = document.getElementById('priceLabel');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const clearFiltersBtn = document.getElementById('clearFilters');
+    const emptyState = document.getElementById('emptyState');
+    const resultsCount = document.getElementById('resultsCount');
+
+    async function toggleHeart(e, btn, carId) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const token = localStorage.getItem('authToken');
+      if (!token) { window.location.href = 'signin.html'; return; }
+
+      btn.disabled = true;
+      try {
+        const resp = await fetch(getApiUrl(`/api/auth/saved-vehicles/${carId}`), {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!resp.ok) {
+          console.error('Save vehicle failed:', resp.status);
+          btn.disabled = false;
+          return;
+        }
+        const data = await resp.json();
+        btn.classList.toggle('active', data.saved);
+
+        const stored = localStorage.getItem('authUser');
+        if (stored) {
+          const authUser = JSON.parse(stored);
+          authUser.savedVehicles = authUser.savedVehicles || [];
+          const car = carsData.find(c => c._id === carId);
+          if (data.saved) {
+            if (car && !authUser.savedVehicles.some(v => v._id === carId)) {
+              authUser.savedVehicles.push(car);
+            }
+          } else {
+            authUser.savedVehicles = authUser.savedVehicles.filter(v => v._id !== carId);
+          }
+          localStorage.setItem('authUser', JSON.stringify(authUser));
+        }
+      } catch (err) {
+        console.error('Toggle save error:', err);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function getApiUrl(path) { return path; }
+
+    async function loadCars() {
+      try {
+        const response = await fetch(getApiUrl('/api/cars'));
+        if (!response.ok) throw new Error('Unable to load cars');
+        const data = await response.json();
+        carsData = data.cars || [];
+        applyFilters();
+      } catch (error) {
+        console.error(error);
+        grid.innerHTML = '<div class="empty-state-message">Unable to load vehicles. Please try again later.</div>';
+      }
+    }
+
+    function assetPath(src) {
+      return src && src.startsWith('cars/') ? `../assets/images/${src}` : src || '../assets/images/cars/temp/bmw m4 competition.avif';
+    }
+
+    function createCarCard(car) {
+      const card = document.createElement('a');
+      card.href = `car-details.html?carId=${car._id}`;
+      card.className = 'car-card';
+      card.dataset.name = car.name;
+      card.dataset.type = car.type;
+      card.dataset.price = car.pricePerDay;
+      card.dataset.seats = String(car.seats);
+
+      const authUser = JSON.parse(localStorage.getItem('authUser') || '{}');
+      const isSaved = (authUser.savedVehicles || []).some(v => v._id === car._id);
+
+      const primaryImage = assetPath(car.images?.[0] || 'cars/temp/bmw m4 competition.avif');
+      card.innerHTML = `
+        <div class="car-card-img-wrap">
+          <img class="car-card-img" src="${primaryImage}" alt="${car.name}" loading="lazy" />
+          <span class="car-card-badge">${car.type}</span>
+          <button class="car-heart${isSaved ? ' active' : ''}" onclick="toggleHeart(event, this, '${car._id}')"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="car-card-body">
+          <div class="car-name">${car.name}</div>
+          <div class="car-specs">
+            <span class="spec-item"><span class="material-symbols-outlined">person</span>${car.seats} seats</span>
+            <span class="spec-item"><span class="material-symbols-outlined">${car.fuelType === 'Electric' ? 'bolt' : 'local_gas_station'}</span>${car.fuelType}</span>
+            <span class="spec-item"><span class="material-symbols-outlined">settings</span>${car.transmission}</span>
+          </div>
+          <div class="car-price-row">
+            <div class="car-price">$${car.pricePerDay} <span>/ day</span></div>
+            <span class="btn-view-details">View <span class="material-symbols-outlined">arrow_forward</span></span>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderCars(cars) {
+      grid.innerHTML = '';
+      cars.forEach(car => grid.appendChild(createCarCard(car)));
+    }
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase();
+      const sort = sortSelect.value;
+
+      let filteredCars = carsData.filter(car => {
+        if (query && !car.name.toLowerCase().includes(query)) return false;
+        if (activeFilters.type && car.type !== activeFilters.type) return false;
+        if (activeFilters.seats && String(car.seats) !== activeFilters.seats) return false;
+        if (car.pricePerDay > activeFilters.price) return false;
+        return true;
+      });
+
+      if (sort === 'price-asc') {
+        filteredCars.sort((a, b) => a.pricePerDay - b.pricePerDay);
+      } else if (sort === 'price-desc') {
+        filteredCars.sort((a, b) => b.pricePerDay - a.pricePerDay);
+      }
+
+      renderCars(filteredCars);
+      emptyState.style.display = filteredCars.length === 0 ? 'block' : 'none';
+      resultsCount.textContent = `${filteredCars.length} vehicle${filteredCars.length !== 1 ? 's' : ''}`;
+    }
+
+    function clearAll() {
+      activeFilters = { type: null, seats: null, price: 500 };
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      priceSlider.value = 500;
+      priceLabel.textContent = 'up to $500';
+      searchInput.value = '';
+      sortSelect.value = 'featured';
+      applyFilters();
+    }
+
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const filter = chip.dataset.filter;
+        const val = chip.dataset.value;
+        document.querySelectorAll(`.filter-chip[data-filter="${filter}"]`).forEach(c => c.classList.remove('active'));
+        if (activeFilters[filter] === val) {
+          activeFilters[filter] = null;
+        } else {
+          chip.classList.add('active');
+          activeFilters[filter] = val;
+        }
+        applyFilters();
+      });
+    });
+
+    priceSlider.addEventListener('input', () => {
+      activeFilters.price = parseInt(priceSlider.value, 10);
+      priceLabel.textContent = `up to $${priceSlider.value}`;
+      applyFilters();
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+    sortSelect.addEventListener('change', applyFilters);
+    clearFiltersBtn.addEventListener('click', clearAll);
+
+    loadCars();
+  </script>
+</body>
+
+</html>

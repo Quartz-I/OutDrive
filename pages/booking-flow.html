@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Book Your Vehicle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <!-- Font Awesome (social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/pages/booking-flow.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="od-navbar">
+    <div class="container-fluid">
+      <a href="home.html" class="od-logo">outDrive</a>
+      <div class="od-nav-right">
+        <a href="car-details.html" class="btn-back" id="btn-back">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Back to Vehicle
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Progress Steps -->
+  <div class="progress-bar-wrap">
+    <div class="steps-row">
+      <div class="step-item active" id="step-tab-1" onclick="goToStep(1)">
+        <div class="step-circle" id="step-circle-1">1</div>
+        <div class="step-label">Dates & Location</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="step-tab-2" onclick="goToStep(2)">
+        <div class="step-circle" id="step-circle-2">2</div>
+        <div class="step-label">Extras</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="step-tab-3" onclick="goToStep(3)">
+        <div class="step-circle" id="step-circle-3">3</div>
+        <div class="step-label">Payment</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="step-tab-4" onclick="goToStep(4)">
+        <div class="step-circle" id="step-circle-4">4</div>
+        <div class="step-label">Review</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="container">
+      <div class="checkout-layout">
+
+        <!-- Left: Steps -->
+        <div>
+
+          <!-- Step 1: Dates & Location -->
+          <div class="step-panel active" id="panel-1">
+            <h1 class="panel-title">Dates &amp; Location</h1>
+            <p class="panel-sub">Choose when and where you'd like to pick up your vehicle.</p>
+
+            <div class="form-card">
+              <div class="form-card-title">
+                <span class="material-symbols-outlined">calendar_today</span>
+                Rental Period
+              </div>
+              <div class="field-grid-2">
+                <div class="field-wrap">
+                  <label class="field-label">Pick-up Date</label>
+                  <input type="date" class="field-input" id="d-pickup" />
+                </div>
+                <div class="field-wrap">
+                  <label class="field-label">Drop-off Date</label>
+                  <input type="date" class="field-input" id="d-dropoff" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-card">
+              <div class="form-card-title">
+                <span class="material-symbols-outlined">location_on</span>
+                Pick-up Location
+              </div>
+              <div class="field-wrap">
+                <label class="field-label">Location</label>
+                <select class="field-select" id="d-location">
+                  <option>Cairo International Airport — Terminal 2</option>
+                  <option>Radisson Blu Cairo — El Nozha, Cairo Governorate</option>
+                  <option>outDrive Giza — Pyramids Road</option>
+                </select>
+              </div>
+              <div class="field-wrap">
+                <label class="field-label">Pick-up Time</label>
+                <select class="field-select" id="d-time">
+                  <option>9:00 AM</option>
+                  <option>10:00 AM</option>
+                  <option selected>11:00 AM</option>
+                  <option>12:00 PM</option>
+                  <option>1:00 PM</option>
+                  <option>2:00 PM</option>
+                  <option>3:00 PM</option>
+                  <option>4:00 PM</option>
+                  <option>5:00 PM</option>
+                  <option>6:00 PM</option>
+                </select>
+              </div>
+              <div class="field-wrap" style="margin-bottom:0">
+                <label class="field-label"
+                  style="display:flex;align-items:center;gap:8px;margin-bottom:0;cursor:pointer;">
+                  <input type="checkbox" id="sameReturn" checked
+                    style="accent-color:var(--brand-red);width:14px;height:14px;" onchange="toggleReturnLoc(this)" />
+                  <span style="font-weight:600;font-size:.8125rem;color:var(--text-primary);">Return to same
+                    location</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-card" id="returnLocCard" style="display:none;">
+              <div class="form-card-title">
+                <span class="material-symbols-outlined">flag</span>
+                Drop-off Location
+              </div>
+              <div class="field-wrap" style="margin-bottom:0">
+                <label class="field-label">Location</label>
+                <select class="field-select">
+                  <option>Cairo International Airport — Terminal 2</option>
+                  <option>Radisson Blu Cairo — Oraby Street, Heliopolis</option>
+                  <option>outDrive Giza — Pyramids Road</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-next" onclick="goToStep(2)">
+                Continue to Extras
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Extras -->
+          <div class="step-panel" id="panel-2">
+            <h1 class="panel-title">Extras &amp; Add-ons</h1>
+            <p class="panel-sub">Enhance your journey with optional extras.</p>
+
+            <div class="extra-item" onclick="toggleExtra(this, 'GPS Navigation', 15)" data-price="15">
+              <div class="extra-icon"><span class="material-symbols-outlined">navigation</span></div>
+              <div class="extra-info">
+                <div class="extra-name">GPS Navigation</div>
+                <div class="extra-desc">Portable sat-nav with offline maps pre-loaded.</div>
+              </div>
+              <div class="extra-price">+$15<span style="font-size:.72rem;font-weight:500;color:var(--text-muted);">
+                  /day</span></div>
+              <div class="extra-check"></div>
+            </div>
+
+            <div class="extra-item" onclick="toggleExtra(this, 'Child Seat', 12)" data-price="12">
+              <div class="extra-icon"><span class="material-symbols-outlined">child_care</span></div>
+              <div class="extra-info">
+                <div class="extra-name">Child Seat</div>
+                <div class="extra-desc">Certified infant or toddler safety seat.</div>
+              </div>
+              <div class="extra-price">+$12<span style="font-size:.72rem;font-weight:500;color:var(--text-muted);">
+                  /day</span></div>
+              <div class="extra-check"></div>
+            </div>
+
+            <div class="extra-item selected" onclick="toggleExtra(this, 'Premium Insurance', 25)" data-price="25">
+              <div class="extra-icon"><span class="material-symbols-outlined">shield</span></div>
+              <div class="extra-info">
+                <div class="extra-name">Premium Insurance</div>
+                <div class="extra-desc">Zero-excess coverage for total peace of mind.</div>
+              </div>
+              <div class="extra-price">+$25<span style="font-size:.72rem;font-weight:500;color:var(--text-muted);">
+                  /day</span></div>
+              <div class="extra-check"></div>
+            </div>
+
+            <div class="extra-item" onclick="toggleExtra(this, 'Wi-Fi Hotspot', 10)" data-price="10">
+              <div class="extra-icon"><span class="material-symbols-outlined">wifi</span></div>
+              <div class="extra-info">
+                <div class="extra-name">Wi-Fi Hotspot</div>
+                <div class="extra-desc">Unlimited 4G hotspot device for the whole rental.</div>
+              </div>
+              <div class="extra-price">+$10<span style="font-size:.72rem;font-weight:500;color:var(--text-muted);">
+                  /day</span></div>
+              <div class="extra-check"></div>
+            </div>
+
+            <div class="extra-item" onclick="toggleExtra(this, 'Additional Driver', 20, true)" data-price="20">
+              <div class="extra-icon"><span class="material-symbols-outlined">group</span></div>
+              <div class="extra-info">
+                <div class="extra-name">Additional Driver</div>
+                <div class="extra-desc">Add a second licensed driver at no per-day cost.</div>
+              </div>
+              <div class="extra-price">+$20<span style="font-size:.72rem;font-weight:500;color:var(--text-muted);">
+                  flat</span></div>
+              <div class="extra-check"></div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-prev" onclick="goToStep(1)"><span class="material-symbols-outlined">arrow_back</span>
+                Back</button>
+              <button class="btn-next" onclick="goToStep(3)">Continue to Payment <span
+                  class="material-symbols-outlined">arrow_forward</span></button>
+            </div>
+          </div>
+
+          <!-- Step 3: Payment -->
+          <div class="step-panel" id="panel-3">
+            <h1 class="panel-title">Payment Details</h1>
+            <p class="panel-sub">Your information is encrypted and never stored.</p>
+
+            <div class="form-card">
+              <div class="form-card-title">
+                <span class="material-symbols-outlined">credit_card</span>
+                Card Details
+              </div>
+              <div class="field-wrap">
+                <label class="field-label">Cardholder Name</label>
+                <input type="text" class="field-input" value="Alex Johnson" placeholder="As it appears on card" />
+              </div>
+              <div class="field-wrap">
+                <label class="field-label">Card Number</label>
+                <div class="card-input-row">
+                  <input type="text" class="field-input" placeholder="1234 5678 9012 3456" maxlength="19" id="cardNum"
+                    inputmode="numeric" autocomplete="cc-number" oninput="formatCard(this); updatePaymentReview()" />
+                  <div class="card-icon">
+                    <div class="card-brand visa">VISA</div>
+                    <div class="card-brand mc"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="field-grid-2">
+                <div class="field-wrap" style="margin-bottom:0">
+                  <label class="field-label">Expiry</label>
+                  <input type="text" class="field-input" placeholder="MM / YY" maxlength="7" id="cardExpiry"
+                    inputmode="numeric" autocomplete="cc-exp" oninput="formatExpiry(this); updatePaymentReview()" />
+                </div>
+                <div class="field-wrap" style="margin-bottom:0">
+                  <label class="field-label">CVC</label>
+                  <input type="text" class="field-input" placeholder="•••" maxlength="4" id="cardCvc"
+                    inputmode="numeric" autocomplete="cc-csc" oninput="onlyDigits(this)" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-card">
+              <div class="form-card-title">
+                <span class="material-symbols-outlined">receipt</span>
+                Billing Address
+              </div>
+              <div class="field-wrap">
+                <label class="field-label">Address Line 1</label>
+                <input type="text" class="field-input" placeholder="123 Main Street" id="cardAddress" autocomplete="street-address" />
+              </div>
+              <div class="field-grid-2">
+                <div class="field-wrap" style="margin-bottom:0">
+                  <label class="field-label">City</label>
+                  <input type="text" class="field-input" placeholder="Los Angeles" id="cardCity" autocomplete="address-level2" oninput="onlyLetters(this)" />
+                </div>
+                <div class="field-wrap" style="margin-bottom:0">
+                  <label class="field-label">ZIP Code</label>
+                  <input type="text" class="field-input" placeholder="90001" id="cardZip" inputmode="numeric" autocomplete="postal-code" maxlength="10" oninput="onlyDigits(this)" />
+                </div>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-prev" onclick="goToStep(2)"><span class="material-symbols-outlined">arrow_back</span>
+                Back</button>
+              <button class="btn-next" onclick="goToStep(4)">Review Booking <span
+                  class="material-symbols-outlined">arrow_forward</span></button>
+            </div>
+          </div>
+
+          <!-- Step 4: Review -->
+          <div class="step-panel" id="panel-4">
+            <h1 class="panel-title">Review &amp; Confirm</h1>
+            <p class="panel-sub">Please check all details before completing your booking.</p>
+
+            <div class="form-card">
+              <div class="review-section">
+                <div class="review-section-label">Vehicle</div>
+                <div style="display:flex;align-items:center;gap:14px;">
+                  <img id="rv-car-img" src="../assets/images/cars/porsche/exterior.avif"
+                    style="width:100px;height:66px;object-fit:cover;border-radius:9px;flex-shrink:0;"
+                    alt="Porsche 911 Carrera" />
+                  <div>
+                    <div id="rv-car-name" style="font-family:'Manrope',sans-serif;font-weight:800;font-size:.9375rem;">Porsche 911 Carrera</div>
+                    <div id="rv-car-sub" style="font-size:.8rem;color:var(--text-muted);margin-top:3px;">Petrol · 2+2 seats · PDK</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="order-divider"></div>
+
+              <div class="review-section">
+                <div class="review-section-label">Rental Details</div>
+                <div class="review-grid">
+                  <div>
+                    <div class="review-item-label">Pick-up</div>
+                    <div class="review-item-value" id="rv-pickup">—</div>
+                  </div>
+                  <div>
+                    <div class="review-item-label">Drop-off</div>
+                    <div class="review-item-value" id="rv-dropoff">—</div>
+                  </div>
+                  <div>
+                    <div class="review-item-label">Location</div>
+                    <div class="review-item-value" id="rv-location">Cairo Airport</div>
+                  </div>
+                  <div>
+                    <div class="review-item-label">Duration</div>
+                    <div class="review-item-value" id="rv-duration">7 days</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="order-divider"></div>
+
+              <div class="review-section" style="margin-bottom:0">
+                <div class="review-section-label">Payment</div>
+                <div class="review-grid">
+                  <div>
+                    <div class="review-item-label">Card</div>
+                    <div class="review-item-value" id="rv-card">Visa •••• 4892</div>
+                  </div>
+                  <div>
+                    <div class="review-item-label">Total</div>
+                    <div class="review-item-value" id="rv-total" style="color:var(--brand-red);">$1,322</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <label class="terms-row">
+              <input type="checkbox" id="termsCheck" />
+              <span>I agree to outDrive's <a href="#">Terms of Service</a>, <a href="#">Rental Agreement</a>, and
+                confirm all details above are correct.</span>
+            </label>
+
+            <div class="step-nav">
+              <button class="btn-prev" onclick="goToStep(3)"><span class="material-symbols-outlined">arrow_back</span>
+                Back</button>
+              <button class="btn-next" onclick="confirmBooking()" style="padding:14px 32px;font-size:.9375rem;">
+                Confirm &amp; Pay
+                <span class="material-symbols-outlined">lock</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Order Summary -->
+        <div class="order-sidebar">
+          <div class="order-card">
+            <img id="os-car-img" class="order-car-img" src="../assets/images/cars/porsche/exterior.avif" alt="Porsche 911 Carrera" />
+            <div class="order-body">
+              <div id="os-car-name" class="order-car-name">Porsche 911 Carrera</div>
+              <div class="order-row"><span><span id="os-rate">$350</span> × <span id="os-days">7</span> days</span><span
+                  id="os-base">$2,450</span></div>
+              <div class="order-row"><span>Service fee</span><span>$45</span></div>
+              <div class="order-row"><span>Tax (8.25%)</span><span id="os-tax">$87</span></div>
+
+              <div id="os-extras-section" style="display:none;">
+                <div class="order-extras-label">Extras</div>
+                <div id="os-extras-list"></div>
+              </div>
+
+              <div class="order-divider"></div>
+              <div class="order-row total"><span>Total</span><span id="os-total">$1,147</span></div>
+
+              <!-- <div class="secure-note">
+                <span class="material-symbols-outlined">lock</span>
+                <span>256-bit SSL encryption · PCI DSS compliant</span>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="od-footer">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+          <span class="od-footer-logo">outDrive</span>
+          <nav class="od-footer-links"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a
+              href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a><a href="#" aria-label="Facebook"><i
+                class="fa-brands fa-facebook"></i></a><a href="#" aria-label="TikTok"><i
+                class="fa-brands fa-tiktok"></i></a><a href="#" aria-label="YouTube"><i
+                class="fa-brands fa-youtube"></i></a></nav>
+          <span class="od-footer-copy">© 2026 outDrive.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const FEE = 45, TAX_RATE = 0.0825;
+    function getApiUrl(path) { return path; }
+
+    function assetPath(src) {
+      return src.startsWith('cars/') ? `../assets/images/${src}` : src;
+    }
+
+    let currentStep = 1;
+    let selectedExtras = { 'Premium Insurance': { price: 25, flat: false } };
+    let numDays = 7;
+    let carData = null;
+
+    const fmt = d => d.toISOString().split('T')[0];
+    const fmtDisplay = str => new Date(str + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+
+    function updateSummary() {
+      if (!carData) return;
+      const rate = carData.pricePerDay;
+      const pickupVal = document.getElementById('d-pickup').value;
+      const dropoffVal = document.getElementById('d-dropoff').value;
+      if (!pickupVal || !dropoffVal) return;
+      const p = new Date(pickupVal + 'T12:00:00');
+      const d = new Date(dropoffVal + 'T12:00:00');
+      numDays = Math.max(1, Math.round((d - p) / 86400000));
+      const base = rate * numDays;
+
+      let extrasTotal = 0;
+      for (const [, info] of Object.entries(selectedExtras)) {
+        extrasTotal += info.flat ? info.price : info.price * numDays;
+      }
+
+      const tax = Math.round((base + extrasTotal + FEE) * TAX_RATE);
+      const total = base + extrasTotal + FEE + tax;
+
+      document.getElementById('os-rate').textContent = '$' + rate;
+      document.getElementById('os-days').textContent = numDays;
+      document.getElementById('os-base').textContent = '$' + base.toLocaleString();
+      document.getElementById('os-tax').textContent = '$' + tax;
+      document.getElementById('os-total').textContent = '$' + total.toLocaleString();
+      document.getElementById('rv-total').textContent = '$' + total.toLocaleString();
+      document.getElementById('rv-duration').textContent = numDays + ' day' + (numDays !== 1 ? 's' : '');
+      document.getElementById('rv-pickup').textContent = pickupVal ? fmtDisplay(pickupVal) : '—';
+      document.getElementById('rv-dropoff').textContent = dropoffVal ? fmtDisplay(dropoffVal) : '—';
+      document.getElementById('rv-location').textContent = document.getElementById('d-location').value;
+
+      const extrasSection = document.getElementById('os-extras-section');
+      const extrasList = document.getElementById('os-extras-list');
+      if (Object.keys(selectedExtras).length > 0) {
+        extrasSection.style.display = 'block';
+        extrasList.innerHTML = '';
+        for (const [name, info] of Object.entries(selectedExtras)) {
+          const row = document.createElement('div');
+          row.className = 'order-extra-row';
+          const priceLabel = info.flat ? `+$${info.price}` : `+$${info.price}/d`;
+          row.innerHTML = `<span style="display:flex;align-items:center;gap:5px;"><span class="material-symbols-outlined" style="font-size:13px;width:13px;min-width:13px;max-width:13px;height:13px;color:var(--brand-red);">check_circle</span>${name}</span><span>${priceLabel}</span>`;
+          extrasList.appendChild(row);
+        }
+      } else {
+        extrasSection.style.display = 'none';
+      }
+    }
+
+    function toggleExtra(el, name, price, flat) {
+      el.classList.toggle('selected');
+      if (el.classList.contains('selected')) {
+        selectedExtras[name] = { price, flat: !!flat };
+      } else {
+        delete selectedExtras[name];
+      }
+      updateSummary();
+    }
+
+    function validateStep1() {
+      const pickupVal = document.getElementById('d-pickup').value;
+      const dropoffVal = document.getElementById('d-dropoff').value;
+      if (!pickupVal || !dropoffVal) {
+        alert('Please select both pick-up and drop-off dates.');
+        return false;
+      }
+      const todayMidnight = new Date();
+      todayMidnight.setHours(0, 0, 0, 0);
+      const p = new Date(pickupVal + 'T12:00:00');
+      const d = new Date(dropoffVal + 'T12:00:00');
+      if (p < todayMidnight) {
+        alert('Pick-up date cannot be in the past.');
+        return false;
+      }
+      if (d <= p) {
+        alert('Drop-off date must be after pick-up date.');
+        return false;
+      }
+      return true;
+    }
+
+    function goToStep(n) {
+      if (n < 1 || n > 4) return;
+      if (n > currentStep && currentStep === 1 && !validateStep1()) return;
+      if (n === 4 && currentStep === 3 && !validatePaymentFields()) return;
+      for (let i = 1; i <= 4; i++) {
+        const tab = document.getElementById('step-tab-' + i);
+        const circle = document.getElementById('step-circle-' + i);
+        tab.classList.remove('active', 'done');
+        if (i < n) {
+          tab.classList.add('done');
+          circle.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;width:14px;min-width:14px;max-width:14px;height:14px;color:#fff;">check</span>';
+        } else if (i === n) {
+          tab.classList.add('active');
+          circle.textContent = i;
+        } else {
+          circle.textContent = i;
+        }
+        document.getElementById('panel-' + i).classList.toggle('active', i === n);
+      }
+      currentStep = n;
+      updateSummary();
+      if (n === 4) updatePaymentReview();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleReturnLoc(cb) {
+      document.getElementById('returnLocCard').style.display = cb.checked ? 'none' : 'block';
+    }
+
+    function formatCard(input) {
+      let v = input.value.replace(/\D/g, '').substring(0, 16);
+      input.value = v.replace(/(.{4})/g, '$1 ').trim();
+    }
+
+    function formatExpiry(input) {
+      let v = input.value.replace(/\D/g, '').substring(0, 4);
+      if (v.length >= 3) v = v.substring(0, 2) + ' / ' + v.substring(2);
+      input.value = v;
+    }
+
+    function onlyDigits(input) {
+      input.value = input.value.replace(/\D/g, '');
+    }
+
+    function onlyLetters(input) {
+      input.value = input.value.replace(/[^a-zA-Z\s'\-]/g, '');
+    }
+
+    function normalizeCardNumber(value) {
+      return (value || '').replace(/\D/g, '');
+    }
+
+    function maskCardNumber(value) {
+      const digits = normalizeCardNumber(value);
+      return digits.length >= 4 ? `Visa •••• ${digits.slice(-4)}` : 'Visa ••••';
+    }
+
+    function updatePaymentReview() {
+      const rvCard = document.getElementById('rv-card');
+      const cardNumField = document.getElementById('cardNum');
+      if (rvCard && cardNumField) {
+        rvCard.textContent = maskCardNumber(cardNumField.value);
+      }
+    }
+
+    function validatePaymentFields() {
+      const cardNum = normalizeCardNumber(document.getElementById('cardNum').value);
+      const expiry = document.getElementById('cardExpiry').value.trim();
+      const cvc = document.getElementById('cardCvc').value.trim();
+      const city = document.getElementById('cardCity').value.trim();
+      const zip = document.getElementById('cardZip').value.trim();
+
+      if (cardNum.length !== 16) {
+        alert('Card number must contain 16 digits.');
+        document.getElementById('cardNum').focus();
+        return false;
+      }
+      if (!/^\d{3,4}$/.test(cvc)) {
+        alert('CVC must be 3 or 4 digits.');
+        document.getElementById('cardCvc').focus();
+        return false;
+      }
+      if (!/^[A-Za-z\s'\-]{2,}$/.test(city)) {
+        alert('City may only contain letters, spaces, apostrophes, or hyphens.');
+        document.getElementById('cardCity').focus();
+        return false;
+      }
+      if (!/^\d{4,10}$/.test(zip)) {
+        alert('ZIP code must contain only numbers.');
+        document.getElementById('cardZip').focus();
+        return false;
+      }
+      const expiryMatch = expiry.match(/^(\d{2})\s*\/\s*(\d{2})$/);
+      if (!expiryMatch) {
+        alert('Expiry date must be entered as MM / YY.');
+        document.getElementById('cardExpiry').focus();
+        return false;
+      }
+      const month = parseInt(expiryMatch[1], 10);
+      const year = parseInt(expiryMatch[2], 10);
+      if (month < 1 || month > 12) {
+        alert('Expiry month must be between 01 and 12.');
+        document.getElementById('cardExpiry').focus();
+        return false;
+      }
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      const expiryDate = new Date(2000 + year, month - 1, 1);
+      expiryDate.setMonth(expiryDate.getMonth() + 1);
+      if (expiryDate <= now) {
+        alert('Card expiry must be in the future.');
+        document.getElementById('cardExpiry').focus();
+        return false;
+      }
+      return true;
+    }
+
+    async function confirmBooking() {
+      if (!validatePaymentFields()) return;
+      if (!document.getElementById('termsCheck').checked) {
+        alert('Please accept the Terms of Service to proceed.');
+        return;
+      }
+      const token = localStorage.getItem('authToken');
+      if (!token) { window.location.href = 'signin.html'; return; }
+
+      const pickupDate = document.getElementById('d-pickup').value;
+      const dropoffDate = document.getElementById('d-dropoff').value;
+      const location = document.getElementById('d-location').value;
+
+      const extras = Object.entries(selectedExtras).map(([name, info]) => ({
+        name, price: info.price, flat: !!info.flat,
+      }));
+
+      const btn = document.querySelector('#panel-4 .btn-next');
+      btn.disabled = true;
+      btn.innerHTML = 'Processing… <span class="material-symbols-outlined">lock</span>';
+
+      try {
+        const resp = await fetch(getApiUrl('/api/auth/bookings'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ carId: carData._id, pickupDate, dropoffDate, location, extras }),
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+          alert(data.message || 'Booking failed. Please try again.');
+          btn.disabled = false;
+          btn.innerHTML = 'Confirm &amp; Pay <span class="material-symbols-outlined">lock</span>';
+          return;
+        }
+
+        const authUser = JSON.parse(localStorage.getItem('authUser') || '{}');
+        sessionStorage.setItem('lastBooking', JSON.stringify({
+          ...data.booking,
+          userEmail: authUser.email || '',
+          userName: `${authUser.firstName || ''} ${authUser.lastName || ''}`.trim(),
+        }));
+        window.location.href = 'booking-confirm.html';
+      } catch (err) {
+        console.error('Booking error:', err);
+        alert('Network error. Please try again.');
+        btn.disabled = false;
+        btn.innerHTML = 'Confirm &amp; Pay <span class="material-symbols-outlined">lock</span>';
+      }
+    }
+
+    function populateCarUI(car) {
+      carData = car;
+      const imgSrc = assetPath(car.images?.[0] || 'cars/temp/bmw m4 competition.avif');
+      document.getElementById('os-car-img').src = imgSrc;
+      document.getElementById('os-car-img').alt = car.name;
+      document.getElementById('os-car-name').textContent = car.name;
+      document.getElementById('rv-car-img').src = imgSrc;
+      document.getElementById('rv-car-img').alt = car.name;
+      document.getElementById('rv-car-name').textContent = car.name;
+      document.getElementById('rv-car-sub').textContent = `${car.fuelType} · ${car.seats} seats · ${car.transmission}`;
+      document.getElementById('btn-back').href = `car-details.html?carId=${car._id}`;
+      updateSummary();
+    }
+
+    async function loadCar() {
+      const carId = new URLSearchParams(window.location.search).get('carId');
+      if (!carId) { window.location.href = 'fleet.html'; return; }
+      try {
+        const resp = await fetch(getApiUrl(`/api/cars/${carId}`));
+        if (!resp.ok) { window.location.href = 'fleet.html'; return; }
+        const data = await resp.json();
+        if (!data.car) { window.location.href = 'fleet.html'; return; }
+        populateCarUI(data.car);
+      } catch (e) {
+        console.error('Failed to load car:', e);
+        window.location.href = 'fleet.html';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('authToken');
+      if (!token) { window.location.href = 'signin.html'; return; }
+
+      const todayStr = fmt(new Date());
+      document.getElementById('d-pickup').min = todayStr;
+      document.getElementById('d-dropoff').min = todayStr;
+
+      const today = new Date();
+      const pickup = new Date(today); pickup.setDate(today.getDate() + 1);
+      const dropoff = new Date(today); dropoff.setDate(today.getDate() + 8);
+      document.getElementById('d-pickup').value = fmt(pickup);
+      document.getElementById('d-dropoff').value = fmt(dropoff);
+
+      document.getElementById('d-pickup').addEventListener('change', () => {
+        const pv = document.getElementById('d-pickup').value;
+        document.getElementById('d-dropoff').min = pv;
+        const dv = document.getElementById('d-dropoff').value;
+        if (dv && dv <= pv) {
+          const next = new Date(pv + 'T12:00:00');
+          next.setDate(next.getDate() + 1);
+          document.getElementById('d-dropoff').value = fmt(next);
+        }
+        updateSummary();
+      });
+      document.getElementById('d-dropoff').addEventListener('change', updateSummary);
+
+      loadCar();
+    });
+  </script>
+</body>
+
+</html>

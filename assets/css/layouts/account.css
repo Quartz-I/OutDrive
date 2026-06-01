@@ -1,0 +1,216 @@
+/* ── Account Layout ─────────────────────────────────────────── */
+.page-wrap {
+  padding-top: 68px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-wrap > .container {
+  flex: 1;
+}
+
+.account-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  padding: 40px 0 80px;
+  align-items: start;
+}
+
+@media (max-width: 991px) {
+  .account-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .account-sidenav {
+    display: none;
+  }
+}
+
+/* ── Account Side Nav ── */
+.account-sidenav {
+  position: sticky;
+  top: 88px;
+}
+
+.sidenav-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.sidenav-user {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sidenav-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a6001f, #3a6187);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.sidenav-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: .9375rem;
+}
+
+.sidenav-tier {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  background: rgba(58, 97, 135, .09);
+  border-radius: 5px;
+  padding: 2px 8px;
+  display: inline-block;
+  margin-top: 3px;
+}
+
+.sidenav-links {
+  padding: 10px 8px;
+}
+
+.sidenav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: .875rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 9px;
+  transition: background .15s, color .15s;
+  margin-bottom: 2px;
+}
+
+.sidenav-link:hover,
+.sidenav-link.active {
+  background: rgba(166, 0, 31, .06);
+  color: var(--brand-red);
+}
+
+.sidenav-link .material-symbols-outlined {
+  font-size: 19px;
+  color: var(--text-muted);
+}
+
+.sidenav-link:hover .material-symbols-outlined,
+.sidenav-link.active .material-symbols-outlined {
+  color: var(--brand-red);
+}
+
+.sidenav-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 12px;
+}
+
+.sidenav-link.danger {
+  color: var(--brand-red);
+}
+
+.sidenav-link.danger .material-symbols-outlined {
+  color: var(--brand-red);
+}
+
+.sidenav-link.danger:hover {
+  background: rgba(166, 0, 31, .06);
+}
+
+ 
+
+.sidenav-email {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+
+
+/* ── Content cards ── */
+.content-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.content-card-header {
+  padding: 22px 26px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.content-card-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -.02em;
+}
+
+.btn-edit {
+  font-family: 'Manrope', sans-serif;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--brand-red);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color .15s;
+}
+
+.btn-edit:hover {
+  color: var(--brand-red-dark);
+}
+
+.btn-edit .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.content-card-body {
+  padding: 22px 26px;
+}
+
+/* ── Page title / subtitle (shared across account pages) ── */
+.page-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: -.03em;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: .875rem;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}

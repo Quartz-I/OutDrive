@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Saved Vehicles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <!-- Font Awesome (social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/shared/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/shared/offcanvas.css" />
+  <link rel="stylesheet" href="../assets/css/shared/footer.css" />
+  <link rel="stylesheet" href="../assets/css/layouts/account.css" />
+  <link rel="stylesheet" href="../assets/css/pages/saved-vehicles.css" />
+</head>
+<body>
+  <nav class="od-navbar">
+    <div class="container-fluid">
+      <button class="btn-hamburger" data-nav-open aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
+      <a href="home.html" class="od-logo">outDrive</a>
+      <div class="od-nav-center">
+        <a href="fleet.html" class="od-nav-link">Fleet</a>
+        <a href="locations.html" class="od-nav-link">Locations</a>
+        <a href="experience.html" class="od-nav-link">Experience</a>
+      </div>
+      <div class="od-nav-right">
+        <a href="signin.html" class="btn-signin">Sign Out</a>
+        <a href="fleet.html" class="btn-booknow">Book Now</a>
+      </div>
+    </div>
+  </nav>
+  <div id="navOverlay" class="od-nav-overlay"></div>
+  <div class="od-offcanvas" id="sidebarMenu">
+    <div class="od-offcanvas-header"><span class="od-offcanvas-logo">outDrive</span><button class="od-offcanvas-close" data-nav-close aria-label="Close navigation">&times;</button></div>
+    <div class="od-offcanvas-body">
+      <nav class="sidebar-nav">
+        <a href="profile.html"><span class="material-symbols-outlined">person</span>Profile</a>
+        <a href="rental-history.html"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+        <a href="saved-vehicles.html" class="active"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+      </nav>
+      <div class="sidebar-user mt-auto">
+        <div class="d-flex align-items-center gap-3 mb-3"><div class="user-avatar-sm">AJ</div><div><div class="user-name">Alex Johnson</div><div class="user-email">alex@example.com</div></div></div>
+        <button class="btn-signout">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="container">
+      <div class="account-layout">
+        <aside class="account-sidenav">
+          <div class="sidenav-card">
+            <div class="sidenav-user"><div class="sidenav-avatar">AJ</div><div><div class="sidenav-name">Alex Johnson</div></div></div>
+            <div class="sidenav-links">
+              <a href="profile.html" class="sidenav-link"><span class="material-symbols-outlined">person</span>Profile</a>
+              <a href="rental-history.html" class="sidenav-link"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+              <a href="saved-vehicles.html" class="sidenav-link active"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+              <div class="sidenav-divider"></div>
+              <a href="#" class="sidenav-link danger btn-signout"><span class="material-symbols-outlined">logout</span>Sign Out</a>
+            </div>
+          </div>
+        </aside>
+
+        <div>
+          <div class="d-flex align-items-center justify-content-between gap-3 mb-1">
+            <h1 class="page-title" style="margin-bottom:0">Saved Vehicles</h1>
+            <span style="font-family:'Manrope',sans-serif;font-size:.8125rem;font-weight:600;color:var(--text-muted);" id="savedCount">4 saved</span>
+          </div>
+          <p class="page-subtitle">Your shortlist of vehicles for instant booking.</p>
+
+          <div class="saved-grid" id="savedGrid"></div>
+          <div class="empty-state" id="savedEmpty" style="display:none;">
+            <span class="material-symbols-outlined">bookmark_border</span>
+            <div class="empty-state-title">No saved vehicles</div>
+            <div class="empty-state-sub">Browse the fleet and tap the heart icon to save your favourites.</div>
+            <a href="fleet.html" class="btn-booknow">Browse Fleet</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="od-footer">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+          <span class="od-footer-logo">outDrive</span>
+          <nav class="od-footer-links"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a><a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></nav>
+          <span class="od-footer-copy">© 2026 outDrive.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/user-data.js"></script>
+  <script>
+    function getApiUrl(path) { return path; }
+
+    function assetPath(src) {
+      if (!src) return '../assets/images/cars/temp/bmw m4 competition.avif';
+      return src.startsWith('cars/') ? `../assets/images/${src}` : src;
+    }
+
+    function createSavedCard(car) {
+      const card = document.createElement('div');
+      card.className = 'saved-card';
+      card.dataset.carId = car._id;
+      card.innerHTML = `
+        <div class="saved-img-wrap">
+          <img class="saved-img" src="${assetPath(car.images?.[0] || 'cars/temp/bmw m4 competition.avif')}" alt="${car.name}" loading="lazy" />
+          <span class="saved-badge">${car.type || 'Car'}</span>
+          <button class="btn-unsave" onclick="toggleSaved(event, '${car._id}')"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="saved-body">
+          <div class="saved-name">${car.name}</div>
+          <div class="saved-specs">
+            <span class="saved-spec"><span class="material-symbols-outlined">person</span>${car.seats || '--'} seats</span>
+            <span class="saved-spec"><span class="material-symbols-outlined">local_gas_station</span>${car.fuelType || '—'}</span>
+            <span class="saved-spec"><span class="material-symbols-outlined">settings</span>${car.transmission || '—'}</span>
+          </div>
+          <div class="saved-price-row">
+            <div class="saved-price">$${car.pricePerDay || '--'} <span>/ day</span></div>
+            <a href="car-details.html?carId=${car._id}" class="btn-book-now">Book Now</a>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderSavedVehicles(cars) {
+      const grid = document.getElementById('savedGrid');
+      const empty = document.getElementById('savedEmpty');
+      const count = document.getElementById('savedCount');
+      grid.innerHTML = '';
+      if (!cars || cars.length === 0) {
+        empty.style.display = 'block';
+        count.textContent = '0 saved';
+        return;
+      }
+      empty.style.display = 'none';
+      cars.forEach((car) => grid.appendChild(createSavedCard(car)));
+      count.textContent = `${cars.length} saved`;
+    }
+
+    async function toggleSaved(event, carId) {
+      event.stopPropagation();
+      event.preventDefault();
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        window.location.href = 'signin.html';
+        return;
+      }
+
+      try {
+        const response = await fetch(getApiUrl(`/api/auth/saved-vehicles/${carId}`), {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Unable to update saved vehicle.');
+        }
+
+        if (!data.saved) {
+          const card = document.querySelector(`.saved-card[data-car-id="${carId}"]`);
+          if (card) card.remove();
+          const savedItems = document.querySelectorAll('.saved-card');
+          document.getElementById('savedCount').textContent = `${savedItems.length} saved`;
+          if (savedItems.length === 0) {
+            document.getElementById('savedEmpty').style.display = 'block';
+          }
+        }
+      } catch (err) {
+        console.error('Failed to remove saved vehicle:', err);
+        alert('Unable to remove saved vehicle. Please try again.');
+      }
+    }
+
+    async function loadSavedVehicles() {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        window.location.href = 'signin.html';
+        return;
+      }
+
+      try {
+        const response = await fetch(getApiUrl('/api/auth/me'), {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          window.location.href = 'signin.html';
+          return;
+        }
+        const data = await response.json();
+        renderSavedVehicles(data.user.savedVehicles || []);
+      } catch (err) {
+        console.error('Failed to load saved vehicles:', err);
+        renderSavedVehicles([]);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadSavedVehicles);
+  </script>
+</body>
+</html>

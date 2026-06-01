@@ -1,0 +1,37 @@
+/* ── Footer ─────────────────────────────────────────────────── */
+.od-footer {
+  background: #0a0b0d;
+  padding: 40px 0 32px;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+}
+
+.od-footer-logo {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--brand-red);
+  letter-spacing: -0.5px;
+}
+
+.od-footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.od-footer-links a {
+  font-size: 1.35rem;
+  color: rgba(255, 255, 255, .45);
+  text-decoration: none;
+  transition: color .18s;
+}
+
+.od-footer-links a:hover {
+  color: rgba(255, 255, 255, .8);
+}
+
+.od-footer-copy {
+  font-size: .78rem;
+  color: rgba(255, 255, 255, .28);
+}

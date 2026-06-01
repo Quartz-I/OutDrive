@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Rental History</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <!-- Font Awesome (social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/shared/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/shared/offcanvas.css" />
+  <link rel="stylesheet" href="../assets/css/shared/footer.css" />
+  <link rel="stylesheet" href="../assets/css/layouts/account.css" />
+  <link rel="stylesheet" href="../assets/css/pages/rental-history.css" />
+</head>
+<body>
+  <nav class="od-navbar">
+    <div class="container-fluid">
+      <button class="btn-hamburger" data-nav-open aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
+      <a href="home.html" class="od-logo">outDrive</a>
+      <div class="od-nav-center">
+        <a href="fleet.html" class="od-nav-link">Fleet</a>
+        <a href="locations.html" class="od-nav-link">Locations</a>
+        <a href="experience.html" class="od-nav-link">Experience</a>
+      </div>
+      <div class="od-nav-right">
+        <a href="signin.html" class="btn-signin">Sign Out</a>
+        <a href="fleet.html" class="btn-booknow">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="navOverlay" class="od-nav-overlay"></div>
+  <div class="od-offcanvas" id="sidebarMenu">
+    <div class="od-offcanvas-header">
+      <span class="od-offcanvas-logo">outDrive</span>
+      <button class="od-offcanvas-close" data-nav-close aria-label="Close navigation">&times;</button>
+    </div>
+    <div class="od-offcanvas-body">
+      <nav class="sidebar-nav">
+        <a href="profile.html"><span class="material-symbols-outlined">person</span>Profile</a>
+        <a href="rental-history.html" class="active"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+        <a href="saved-vehicles.html"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+      </nav>
+      <div class="sidebar-user mt-auto">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="user-avatar-sm">AJ</div>
+          <div><div class="user-name">Alex Johnson</div><div class="user-email">alex@example.com</div></div>
+        </div>
+        <button class="btn-signout">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="container">
+      <div class="account-layout">
+        <aside class="account-sidenav">
+          <div class="sidenav-card">
+            <div class="sidenav-user">
+              <div class="sidenav-avatar">AJ</div>
+              <div><div class="sidenav-name">Alex Johnson</div></div>
+            </div>
+            <div class="sidenav-links">
+              <a href="profile.html" class="sidenav-link"><span class="material-symbols-outlined">person</span>Profile</a>
+              <a href="rental-history.html" class="sidenav-link active"><span class="material-symbols-outlined">receipt_long</span>Rental History</a>
+              <a href="saved-vehicles.html" class="sidenav-link"><span class="material-symbols-outlined">bookmark</span>Saved Vehicles</a>
+              <div class="sidenav-divider"></div>
+              <a href="#" class="sidenav-link danger btn-signout"><span class="material-symbols-outlined">logout</span>Sign Out</a>
+            </div>
+          </div>
+        </aside>
+
+        <div>
+          <h1 class="page-title">Rental History</h1>
+          <p class="page-subtitle">Your complete booking record with outDrive.</p>
+
+          <!-- Stats -->
+          <div class="summary-strip">
+            <div class="summary-stat"><div id="summaryTotalRentals" class="summary-val">0</div><div class="summary-lbl">Total Rentals</div></div>
+            <div class="summary-stat"><div id="summaryTotalSpent" class="summary-val">$0</div><div class="summary-lbl">Total Spent</div></div>
+            <div class="summary-stat"><div id="summaryDaysDriven" class="summary-val">0 days</div><div class="summary-lbl">Days Driven</div></div>
+          </div>
+
+          <!-- Filters -->
+          <div class="filter-tabs">
+            <span class="filter-tab active" onclick="filterRentals('all', this)">All</span>
+            <span class="filter-tab" onclick="filterRentals('upcoming', this)">Upcoming</span>
+            <span class="filter-tab" onclick="filterRentals('completed', this)">Completed</span>
+            <span class="filter-tab" onclick="filterRentals('cancelled', this)">Cancelled</span>
+          </div>
+
+          <!-- Rental items -->
+          <div id="rentalsList"></div>
+          <div class="empty-state" id="rentalsEmpty" style="display:none;">
+            <span class="material-symbols-outlined">history</span>
+            <div class="empty-state-title">No rental history found</div>
+            <div class="empty-state-sub">Start with your first booking to see every trip here.</div>
+            <a href="fleet.html" class="btn-booknow">Browse Vehicles</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="od-footer">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+          <span class="od-footer-logo">outDrive</span>
+          <nav class="od-footer-links"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a><a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></nav>
+          <span class="od-footer-copy">© 2026 outDrive.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/user-data.js"></script>
+  <script>
+    let currentRentals = [];
+
+    function getApiUrl(path) { return path; }
+
+    function formatDate(value) {
+      if (!value) return '—';
+      const d = new Date(value);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function assetPath(src) {
+      if (!src) return '../assets/images/cars/temp/bmw m4 competition.avif';
+      return src.startsWith('cars/') ? `../assets/images/${src}` : src;
+    }
+
+    function createRentalCard(rental) {
+      const card = document.createElement('div');
+      card.className = 'rental-card';
+      card.dataset.status = rental.status || 'completed';
+      card.innerHTML = `
+        <div class="rental-card-inner">
+          <img class="rental-img" src="${assetPath(rental.carImage)}" alt="${rental.carName || 'Vehicle'}" loading="lazy" />
+          <div class="rental-body">
+            <div>
+              <div class="rental-top">
+                <div>
+                  <div class="rental-name">${rental.carName || 'Vehicle'}</div>
+                  <div class="rental-ref">Ref: ${rental.reference || 'OD-XXXX-XXXX'}</div>
+                </div>
+                <span class="rental-status status-${rental.status || 'completed'}">${(rental.status || 'Completed').replace(/^[a-z]/, s => s.toUpperCase())}</span>
+              </div>
+              <div class="rental-meta">
+                <span class="rental-meta-item"><span class="material-symbols-outlined">calendar_today</span>${formatDate(rental.pickupDate)} – ${formatDate(rental.dropoffDate)}</span>
+                <span class="rental-meta-item"><span class="material-symbols-outlined">location_on</span>${rental.location || 'N/A'}</span>
+                <span class="rental-meta-item"><span class="material-symbols-outlined">schedule</span>${rental.days || 0} day${rental.days === 1 ? '' : 's'}</span>
+              </div>
+            </div>
+          </div>
+          <div class="rental-price-col">
+            <div><div class="rental-price">$${(rental.total || 0).toLocaleString()}</div><div class="rental-price-label">Total charged</div></div>
+            ${rental.status === 'upcoming'
+              ? `<button class="btn-rebook" onclick="cancelBooking('${rental._id}', this)">Cancel Booking</button>`
+              : `<a href="car-details.html?carId=${rental.car || ''}" class="btn-rebook">Book Again</a>`
+            }
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderRentalHistory(rentals) {
+      currentRentals = rentals || [];
+      const list = document.getElementById('rentalsList');
+      const empty = document.getElementById('rentalsEmpty');
+      const summary = document.querySelector('.summary-strip');
+      list.innerHTML = '';
+      if (!rentals || rentals.length === 0) {
+        empty.style.display = 'block';
+        if (summary) summary.style.display = 'none';
+        return;
+      }
+      empty.style.display = 'none';
+      if (summary) summary.style.display = 'grid';
+      rentals.forEach((rental) => list.appendChild(createRentalCard(rental)));
+      updateSummaryStats(rentals);
+    }
+
+    async function cancelBooking(rentalId, btn) {
+      if (!confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) return;
+
+      const token = localStorage.getItem('authToken');
+      if (!token) { window.location.href = 'signin.html'; return; }
+
+      btn.disabled = true;
+      btn.textContent = 'Cancelling…';
+
+      try {
+        const resp = await fetch(getApiUrl(`/api/auth/bookings/${rentalId}`), {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+          alert(data.message || 'Failed to cancel booking.');
+          btn.disabled = false;
+          btn.textContent = 'Cancel Booking';
+          return;
+        }
+
+        currentRentals = currentRentals.filter(r => r._id !== rentalId);
+
+        const card = btn.closest('.rental-card');
+        card.style.transition = 'opacity .3s ease, transform .3s ease';
+        card.style.opacity = '0';
+        card.style.transform = 'translateX(24px)';
+        setTimeout(() => {
+          card.remove();
+          const summary = document.querySelector('.summary-strip');
+          if (currentRentals.length === 0) {
+            document.getElementById('rentalsEmpty').style.display = 'block';
+            if (summary) summary.style.display = 'none';
+          } else {
+            updateSummaryStats(currentRentals);
+          }
+        }, 300);
+      } catch (err) {
+        console.error('Cancel booking error:', err);
+        alert('Network error. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'Cancel Booking';
+      }
+    }
+
+    function updateSummaryStats(rentals) {
+      const totalSpent = rentals.reduce((sum, rental) => sum + (rental.total || 0), 0);
+      const totalDays = rentals.reduce((sum, rental) => sum + (rental.days || 0), 0);
+      document.getElementById('summaryTotalRentals').textContent = rentals.length;
+      document.getElementById('summaryTotalSpent').textContent = `$${totalSpent.toLocaleString()}`;
+      document.getElementById('summaryDaysDriven').textContent = `${totalDays} days`;
+    }
+
+    function filterRentals(status, tab) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.rental-card').forEach(card => {
+        card.style.display = (status === 'all' || card.dataset.status === status) ? 'block' : 'none';
+      });
+    }
+
+    async function loadRentalHistory() {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        window.location.href = 'signin.html';
+        return;
+      }
+
+      try {
+        const response = await fetch(getApiUrl('/api/auth/me'), {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          window.location.href = 'signin.html';
+          return;
+        }
+        const data = await response.json();
+        renderRentalHistory(data.user.rentals || []);
+      } catch (err) {
+        console.error('Failed to load rental history:', err);
+        renderRentalHistory([]);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadRentalHistory);
+  </script>
+</body>
+</html>

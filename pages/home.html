@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Curate Your Next Journey</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+
+  <!-- Font Awesome (social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- outDrive CSS -->
+  <link rel="stylesheet" href="../assets/css/shared/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/shared/base.css" />
+  <link rel="stylesheet" href="../assets/css/shared/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/shared/offcanvas.css" />
+  <link rel="stylesheet" href="../assets/css/shared/footer.css" />
+  <link rel="stylesheet" href="../assets/css/shared/reveal.css" />
+  <link rel="stylesheet" href="../assets/css/pages/home.css" />
+
+</head>
+
+<body>
+
+  <!-- ── Navbar ───────────────────────────────────────────── -->
+  <nav class="od-navbar">
+    <div class="container-fluid">
+      <!-- Hamburger -->
+      <button class="btn-hamburger" data-nav-open aria-label="Open navigation">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <!-- Logo -->
+      <a href="home.html" class="od-logo">outDrive</a>
+
+      <!-- Center nav -->
+      <div class="od-nav-center">
+        <a href="fleet.html" class="od-nav-link">Fleet</a>
+        <a href="locations.html" class="od-nav-link">Locations</a>
+        <a href="experience.html" class="od-nav-link">Experience</a>
+      </div>
+
+      <!-- Right -->
+      <div class="od-nav-right">
+        <a href="signin.html" class="btn-signin">Sign In</a>
+        <a href="fleet.html" class="btn-booknow">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Offcanvas Sidebar ─────────────────────────────────── -->
+  <div id="navOverlay" class="od-nav-overlay"></div>
+  <div class="od-offcanvas" id="sidebarMenu">
+    <div class="od-offcanvas-header">
+      <span class="od-offcanvas-logo">outDrive</span>
+      <button class="od-offcanvas-close" data-nav-close aria-label="Close navigation">&times;</button>
+    </div>
+    <div class="od-offcanvas-body">
+      <nav class="sidebar-nav">
+        <a href="profile.html">
+          <span class="material-symbols-outlined">person</span>
+          Profile
+        </a>
+        <a href="rental-history.html">
+          <span class="material-symbols-outlined">receipt_long</span>
+          Rental History
+        </a>
+        <a href="saved-vehicles.html">
+          <span class="material-symbols-outlined">bookmark</span>
+          Saved Vehicles
+        </a>
+      </nav>
+
+      <div class="sidebar-user mt-auto">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="user-avatar">GU</div>
+          <div>
+            <div class="user-name">Guest</div>
+            <div class="user-email">Guest@example.com</div>
+          </div>
+        </div>
+        <button class="btn-signout">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="container position-relative" style="z-index:2;">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Premium Vehicle Rentals · Est. 2026</p>
+        <h1 class="hero-title">Curate Your<br>Next Journey.</h1>
+        <p class="hero-sub">Every drive should be exceptional. We hand-select the world's finest vehicles so you arrive
+          not just on time, but in style.</p>
+
+        <!-- Booking Widget -->
+        <div class="booking-widget">
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="pickupLoc">Find a Location</label>
+              <input type="text" class="form-control" id="pickupLoc" placeholder="City, airport or address…" autocomplete="off" />
+              <div id="distanceResult" class="distance-result" aria-live="polite"></div>
+            </div>
+          </div>
+          <a href="fleet.html" class="btn-explore">
+            Explore Vehicles
+            <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Featured Fleet ────────────────────────────────────── -->
+  <section class="fleet-section">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow">Handpicked for You</p>
+        <h2 class="section-title">The Collection</h2>
+      </div>
+
+      <div class="fleet-grid">
+        <!-- Card 1 — Featured -->
+        <a href="car-details.html" class="car-card car-card--featured reveal">
+          <img class="car-card-img" src="../assets/images/cars/porsche/exterior.avif" alt="Porsche 911 Carrera"
+            loading="lazy" />
+          <div class="car-card-body">
+            <span class="car-badge">Sports</span>
+            <div class="car-name">Porsche 911 Carrera</div>
+            <div class="car-specs">
+              <span class="car-spec-item"><span class="material-symbols-outlined">person</span>2 seats</span>
+              <span class="car-spec-item"><span class="material-symbols-outlined">local_gas_station</span>Petrol</span>
+              <span class="car-spec-item"><span class="material-symbols-outlined">settings</span>PDK</span>
+            </div>
+            <div class="car-price-row">
+              <div class="car-price">$350 <span>/ day</span></div>
+              <span class="btn-view">View Details <span class="material-symbols-outlined">arrow_forward</span></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="car-details.html" class="car-card reveal" style="transition-delay:0.1s">
+          <img class="car-card-img" src="../assets/images/cars/lucid/exterior.jpg" alt="Lucid Air Grand Touring"
+            loading="lazy" />
+          <div class="car-card-body">
+            <span class="car-badge">Electric</span>
+            <div class="car-name">Lucid Air Grand Touring</div>
+            <div class="car-specs">
+              <span class="car-spec-item"><span class="material-symbols-outlined">person</span>5 seats</span>
+              <span class="car-spec-item"><span class="material-symbols-outlined">bolt</span>Electric</span>
+              <span class="car-spec-item"><span class="material-symbols-outlined">settings</span>Auto</span>
+            </div>
+            <div class="car-price-row">
+              <div class="car-price">$295 <span>/ day</span></div>
+              <span class="btn-view">View Details <span class="material-symbols-outlined">arrow_forward</span></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="car-details.html" class="car-card reveal" style="transition-delay:0.2s">
+          <img class="car-card-img" src="../assets/images/cars/range-rover/exterior.webp" alt="Range Rover Evoque"
+            loading="lazy" />
+          <div class="car-card-body">
+            <span class="car-badge">SUV</span>
+            <div class="car-name">Range Rover Evoque</div>
+            <div class="car-specs">
+              <span class="car-spec-item"><span class="material-symbols-outlined">person</span>5 seats</span>
+              <span class="car-spec-item"><span class="material-symbols-outlined">local_gas_station</span>Hybrid</span>
+              <span class="car-spec-item"><span class="material-symbols-outlined">settings</span>Auto</span>
+            </div>
+            <div class="car-price-row">
+              <div class="car-price">$410 <span>/ day</span></div>
+              <span class="btn-view">View Details <span class="material-symbols-outlined">arrow_forward</span></span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="text-center mt-5 reveal fleet-action" style="transition-delay:0.3s">
+        <a href="fleet.html" class="btn-booknow"
+          data-auth-target="membership"
+          style="display:inline-flex;align-items:center;gap:8px;padding:13px 32px;font-size:0.9rem;">
+          View Full Fleet
+          <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Why outDrive ──────────────────────────────────────── -->
+  <section class="why-section">
+    <div class="container">
+      <div class="row align-items-end reveal">
+        <div class="col-lg-5">
+          <p class="section-eyebrow">Why outDrive</p>
+          <h2 class="section-title">Every Detail.<br>Considered.</h2>
+        </div>
+        <div class="col-lg-5 offset-lg-2">
+          <p style="color:var(--text-muted);font-size:0.9375rem;line-height:1.7;margin:0;">We don't just hand you keys.
+            Each booking is supported by a premium suite of services designed to make your experience effortless from
+            reservation to return.</p>
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon">
+            <span class="material-symbols-outlined">shield</span>
+          </div>
+          <div class="feature-title">Premium Insurance</div>
+          <p class="feature-desc">Comprehensive coverage included with every booking. Drive with absolute confidence.
+          </p>
+        </div>
+
+        <div class="feature-card reveal" style="transition-delay:0.1s">
+          <div class="feature-icon">
+            <span class="material-symbols-outlined">support_agent</span>
+          </div>
+          <div class="feature-title">24/7 Roadside</div>
+          <p class="feature-desc">Around-the-clock roadside assistance wherever your journey takes you.</p>
+        </div>
+
+        <div class="feature-card reveal" style="transition-delay:0.2s">
+          <div class="feature-icon">
+            <span class="material-symbols-outlined">ev_station</span>
+          </div>
+          <div class="feature-title">Free Charging</div>
+          <p class="feature-desc">Complimentary access to our premium EV charging network across all locations.</p>
+        </div>
+
+        <div class="feature-card reveal" style="transition-delay:0.3s">
+          <div class="feature-icon">
+            <span class="material-symbols-outlined">local_car_wash</span>
+          </div>
+          <div class="feature-title">Detailing Included</div>
+          <p class="feature-desc">Every vehicle is hand-detailed before your collection. Immaculate, always.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA Band ──────────────────────────────────────────── -->
+  <section class="cta-band">
+    <div class="container">
+      <div class="row align-items-center gy-4">
+        <div class="col-lg-7 reveal">
+          <div class="cta-band-title">Ready to drive something<br>extraordinary?</div>
+          <p class="cta-band-sub">Join thousands of discerning drivers who choose outDrive for every occasion.</p>
+        </div>
+        <div class="col-lg-5 text-lg-end reveal" style="transition-delay:0.15s">
+          <a href="signup.html" class="btn-booknow"
+            style="display:inline-flex;align-items:center;gap:8px;padding:15px 36px;font-size:1rem;">
+            Apply for Membership
+            <span class="material-symbols-outlined" style="font-size:19px;">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ────────────────────────────────────────────── -->
+  <footer class="od-footer">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+        <span class="od-footer-logo">outDrive</span>
+        <nav class="od-footer-links">
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </nav>
+        <span class="od-footer-copy">© 2026 outDrive. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/user-data.js"></script>
+
+  <script>
+    // Hero load
+    const heroBg = document.getElementById('heroBg');
+    setTimeout(() => heroBg.classList.add('loaded'), 100);
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ── Distance from outDrive HQ (Cairo International Airport) ──
+    const HQ_LAT = 30.1110488;
+    const HQ_LNG = 31.3957475;
+
+    function haversineKm(lat1, lng1, lat2, lng2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLng = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+      return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+    }
+
+    const distResult = document.getElementById('distanceResult');
+    let debounceTimer = null;
+    let abortController = null;
+
+    function setDistResult(html, found = false) {
+      distResult.innerHTML = html;
+      distResult.classList.toggle('found', found);
+    }
+
+    document.getElementById('pickupLoc').addEventListener('input', function () {
+      clearTimeout(debounceTimer);
+      const query = this.value.trim();
+
+      if (query.length < 3) {
+        setDistResult('');
+        return;
+      }
+
+      setDistResult('<span class="material-symbols-outlined">hourglass_empty</span> Searching…');
+
+      debounceTimer = setTimeout(async () => {
+        if (abortController) abortController.abort();
+        abortController = new AbortController();
+
+        try {
+          const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&viewbox=25.0,22.0,37.0,32.0&bounded=0`;
+          const res = await fetch(url, {
+            signal: abortController.signal,
+            headers: { 'Accept-Language': 'en' }
+          });
+          const data = await res.json();
+
+          if (data.length === 0) {
+            setDistResult('<span class="material-symbols-outlined">location_off</span> Location not found');
+            return;
+          }
+
+          const { lat, lon, display_name } = data[0];
+          const km = haversineKm(HQ_LAT, HQ_LNG, parseFloat(lat), parseFloat(lon));
+          const parts = display_name.split(',');
+          const shortName = parts.slice(0, 2).join(',').trim();
+
+          setDistResult(
+            `<span class="material-symbols-outlined">location_on</span> ${shortName} — <strong>${km.toLocaleString()} km</strong> from our Cairo HQ`,
+            true
+          );
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            setDistResult('<span class="material-symbols-outlined">error</span> Could not fetch location');
+          }
+        }
+      }, 600);
+    });
+  </script>
+</body>
+
+</html>
