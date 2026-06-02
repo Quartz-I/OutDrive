@@ -13,11 +13,32 @@ const seedCars = require('./seedCars');
 
 const app = express();
 
+// Cache connection across serverless invocations
+let dbReady = false;
+
+async function connectDB() {
+  if (dbReady) return;
+  await mongoose.connect(process.env.MONGO_URI, { family: 4 });
+  await seedCars();
+  dbReady = true;
+}
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
 app.use(express.static(path.join(__dirname, '..', 'pages')));
+
+// Ensure DB is connected before every request
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('DB connection failed:', err.message);
+    res.status(503).json({ message: 'Service unavailable. Please try again.' });
+  }
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -31,17 +52,6 @@ app.get('/', (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({ message: 'outDrive API is running' });
 });
-
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URI, { family: 4 })
-  .then(async () => {
-    console.log('Connected to MongoDB');
-    await seedCars();
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err.message);
-  });
 
 // Local development only
 if (!process.env.VERCEL) {
