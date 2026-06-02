@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>outDrive — Final Project Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Tokens ─────────────────────────────────────────────── */
+    :root {
+      --red:       #a6001f;
+      --red-glow:  rgba(166, 0, 31, 0.20);
+      --red-dim:   rgba(166, 0, 31, 0.08);
+      --bg:        #f7f6f3;
+      --surface:   #ffffff;
+      --border:    rgba(0, 0, 0, 0.09);
+      --text:      #0e0f11;
+      --muted:     rgba(14, 15, 17, 0.65);
+      --gold:      #7a5500;
+      --shadow:    0 2px 14px rgba(14,15,17,.07), 0 1px 3px rgba(14,15,17,.04);
+      --speed:     600ms;
+      --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ── Reset ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+    }
+
+    ::selection { background: var(--red); color: #fff; }
+
+    /* ── Progress bar ────────────────────────────────────────── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: var(--red); z-index: 100;
+      transition: width var(--speed) var(--ease);
+      box-shadow: 0 0 12px var(--red-glow);
+    }
+
+    /* ── Slide counter dots ──────────────────────────────────── */
+    #slide-counter {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 100;
+    }
+    #slide-counter span {
+      width: 28px; height: 3px;
+      background: rgba(0,0,0,.18); border-radius: 2px;
+      transition: background .3s, width .3s; cursor: pointer;
+    }
+    #slide-counter span.active {
+      background: var(--red); width: 44px;
+      box-shadow: 0 0 8px var(--red-glow);
+    }
+
+    /* ── Nav arrows ──────────────────────────────────────────── */
+    .nav-arrow {
+      position: fixed; bottom: 24px; z-index: 100;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,.8); border: 1px solid var(--border);
+      color: var(--muted); font-size: 20px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, color .2s, border-color .2s;
+      user-select: none; box-shadow: var(--shadow);
+    }
+    .nav-arrow:hover { background: var(--red-dim); color: var(--red); border-color: var(--red); }
+    #nav-prev { right: 84px; }
+    #nav-next { right: 30px; }
+
+    /* ── Deck & slides ───────────────────────────────────────── */
+    #deck { position: fixed; inset: 0; }
+
+    .slide {
+      position: absolute; inset: 0;
+      height: 100vh; height: 100dvh;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(24px,5vw,80px) clamp(20px,6vw,120px);
+      opacity: 0; transform: translateY(32px);
+      transition: opacity var(--speed) var(--ease), transform var(--speed) var(--ease);
+      pointer-events: none;
+    }
+    .slide.active   { opacity: 1; transform: translateY(0); pointer-events: all; }
+    .slide.exit-up  { opacity: 0; transform: translateY(-32px); }
+
+    /* noise texture */
+    .slide::before {
+      content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
+    }
+
+    .slide-inner { position: relative; z-index: 1; width: 100%; max-width: 1200px; }
+
+    /* ── Typography helpers ──────────────────────────────────── */
+    .eyebrow {
+      font-size: clamp(.65rem,1vw,.8rem); font-weight: 600;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--red); margin-bottom: clamp(10px,1.5vh,18px);
+    }
+    .slide-title {
+      font-size: clamp(2.2rem,5.5vw,4.2rem); font-weight: 900;
+      line-height: 1.05; letter-spacing: -.03em;
+      margin-bottom: clamp(12px,2vh,24px);
+    }
+    .slide-title em { font-style: normal; color: var(--red); }
+    .slide-sub {
+      font-size: clamp(.9rem,1.4vw,1.1rem); font-weight: 400;
+      color: var(--muted); line-height: 1.65; max-width: 68ch;
+    }
+    .label {
+      font-size: clamp(.6rem,.85vw,.75rem); font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+    }
+
+    /* ── Divider ─────────────────────────────────────────────── */
+    .divider {
+      width: 48px; height: 3px; background: var(--red);
+      border-radius: 2px; margin-bottom: clamp(16px,2.5vh,32px);
+      box-shadow: 0 0 10px var(--red-glow);
+    }
+
+    /* ── Layout grids ────────────────────────────────────────── */
+    .col2 { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px,3vw,48px); align-items: start; }
+    .col3 { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(16px,2vw,32px); }
+    .col4 { display: grid; grid-template-columns: repeat(4,1fr); gap: clamp(12px,1.5vw,24px); }
+
+    /* ── Card ────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: clamp(16px,2vw,28px); box-shadow: var(--shadow);
+    }
+    .card-icon  { font-size: clamp(1.4rem,2.5vw,2rem); margin-bottom: clamp(8px,1vh,14px); }
+    .card-title { font-size: clamp(.8rem,1.2vw,1rem); font-weight: 700; margin-bottom: 6px; }
+    .card-body  { font-size: clamp(.7rem,1vw,.85rem); color: var(--muted); line-height: 1.55; }
+
+    /* ── Stat block ──────────────────────────────────────────── */
+    .stat { text-align: center; }
+    .stat-value {
+      font-size: clamp(2rem,4.5vw,3.6rem); font-weight: 900;
+      color: var(--red); line-height: 1; letter-spacing: -.04em;
+    }
+    .stat-label {
+      font-size: clamp(.65rem,.9vw,.78rem); color: var(--muted);
+      margin-top: 6px; text-transform: uppercase; letter-spacing: .1em;
+    }
+
+    /* ── Tag / pill ──────────────────────────────────────────── */
+    .tag {
+      display: inline-block; padding: 3px 10px;
+      background: var(--red-dim); border: 1px solid var(--red);
+      border-radius: 100px; font-size: clamp(.6rem,.85vw,.72rem);
+      font-weight: 600; color: var(--red); letter-spacing: .04em;
+    }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(8px,1.2vh,16px); }
+    .pill {
+      padding: 5px 13px; background: rgba(0,0,0,.04);
+      border: 1px solid var(--border); border-radius: 100px;
+      font-size: clamp(.62rem,.9vw,.75rem); font-family: 'Inter', sans-serif;
+      color: var(--text); font-weight: 500;
+    }
+    .pill.accent { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+    .pill.gold   { border-color: var(--gold); color: var(--gold); background: rgba(122,85,0,.08); }
+
+    /* ── Team card ───────────────────────────────────────────── */
+    .team-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: clamp(14px,2vw,24px);
+      text-align: center; box-shadow: var(--shadow);
+    }
+    .avatar {
+      width: clamp(40px,6vw,56px); height: clamp(40px,6vw,56px);
+      border-radius: 50%; background: var(--red);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: clamp(.85rem,1.3vw,1.1rem); font-weight: 800; color: #fff; margin-bottom: 10px;
+    }
+    .team-name  { font-size: clamp(.78rem,1.1vw,.92rem); font-weight: 700; margin-bottom: 4px; }
+    .team-role  { font-size: clamp(.62rem,.85vw,.72rem); color: var(--muted); }
+    .team-tasks { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+    .team-tasks .tag { font-size: .6rem; padding: 2px 7px; }
+
+    /* ── Problem list ────────────────────────────────────────── */
+    .problem-list  { display: flex; flex-direction: column; gap: clamp(10px,1.5vh,18px); }
+    .problem-item  {
+      display: flex; gap: clamp(12px,2vw,24px); align-items: flex-start;
+      padding: clamp(12px,1.5vw,20px) clamp(16px,2vw,28px);
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--red); border-radius: 10px;
+    }
+    .problem-num   { font-size: clamp(1.2rem,2vw,1.8rem); font-weight: 900; color: var(--red); line-height: 1; min-width: 32px; opacity: .4; }
+    .problem-title { font-size: clamp(.82rem,1.2vw,1rem); font-weight: 700; margin-bottom: 4px; }
+    .problem-desc  { font-size: clamp(.65rem,.9vw,.78rem); color: var(--muted); line-height: 1.55; }
+
+    /* ── Solution callout ────────────────────────────────────── */
+    .solution-callout {
+      padding: clamp(16px,2.5vw,36px);
+      background: linear-gradient(135deg, rgba(166,0,31,.15) 0%, rgba(166,0,31,.04) 100%);
+      border: 1px solid rgba(166,0,31,.4); border-radius: 16px;
+      margin-bottom: clamp(14px,2vh,24px);
+    }
+    .solution-callout p { font-size: clamp(.88rem,1.35vw,1.1rem); font-weight: 500; line-height: 1.6; }
+
+    /* ── Feature grid ────────────────────────────────────────── */
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: clamp(12px,1.5vw,20px); }
+    .feat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: clamp(14px,1.8vw,22px);
+      display: flex; gap: 14px; align-items: flex-start; box-shadow: var(--shadow);
+    }
+    .feat-icon  { font-size: clamp(1.2rem,2vw,1.6rem); line-height: 1; flex-shrink: 0; }
+    .feat-title { font-size: clamp(.75rem,1.05vw,.9rem); font-weight: 700; margin-bottom: 3px; }
+    .feat-desc  { font-size: clamp(.62rem,.85vw,.72rem); color: var(--muted); line-height: 1.5; }
+
+    /* ── API table ───────────────────────────────────────────── */
+    .api-table { width: 100%; border-collapse: collapse; }
+    .api-table th {
+      font-size: clamp(.6rem,.8vw,.7rem); text-transform: uppercase; letter-spacing: .12em;
+      color: var(--muted); font-weight: 600; padding: 8px 12px; text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .api-table td {
+      font-size: clamp(.62rem,.88vw,.75rem); padding: 8px 12px;
+      border-bottom: 1px solid rgba(0,0,0,.04); font-family: 'Inter', sans-serif;
+    }
+    .method {
+      display: inline-block; padding: 2px 8px; border-radius: 4px;
+      font-size: .65rem; font-weight: 700; letter-spacing: .05em;
+    }
+    .method.get  { background: rgba(59,130,246,.15);  color: #60a5fa; }
+    .method.post { background: rgba(34,197,94,.15);   color: #4ade80; }
+    .method.put  { background: rgba(251,191,36,.15);  color: #fbbf24; }
+    .method.del  { background: rgba(239,68,68,.15);   color: #f87171; }
+
+    /* ── Architecture boxes ──────────────────────────────────── */
+    .arch-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: clamp(12px,1.5vw,20px); text-align: center; box-shadow: var(--shadow); }
+    .arch-title { font-size: clamp(.72rem,1vw,.85rem); font-weight: 800; margin-bottom: 8px; }
+    .arch-items { display: flex; flex-direction: column; gap: 5px; }
+    .arch-item  { font-size: clamp(.6rem,.82vw,.7rem); color: var(--muted); font-family: 'Inter', sans-serif; background: rgba(0,0,0,.03); border-radius: 6px; padding: 4px 8px; }
+
+    /* ── Timeline ────────────────────────────────────────────── */
+    .timeline {
+      position: relative; display: flex; gap: clamp(6px,1vw,14px);
+      padding-top: 26px; margin-top: clamp(10px,1.8vh,22px);
+    }
+    .timeline::before {
+      content: ''; position: absolute; top: 8px; left: 9px; right: 9px; height: 2px;
+      background: linear-gradient(to right, var(--red), rgba(166,0,31,.25)); z-index: 0;
+    }
+    .tl-phase  { flex: 1; display: flex; flex-direction: column; align-items: center; }
+    .tl-dot    { width: 18px; height: 18px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red-glow); margin-bottom: 12px; flex-shrink: 0; position: relative; z-index: 1; }
+    .tl-node   { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--red); border-radius: 10px; padding: clamp(10px,1.2vw,15px) clamp(8px,.9vw,12px); width: 100%; box-shadow: var(--shadow); }
+    .tl-week   { font-size: clamp(.54rem,.7vw,.62rem); font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 5px; }
+    .tl-title  { font-size: clamp(.65rem,.88vw,.78rem); font-weight: 700; line-height: 1.3; margin-bottom: 6px; }
+    .tl-result { font-size: clamp(.57rem,.74vw,.65rem); color: var(--muted); line-height: 1.5; }
+    .tl-badge  { display: inline-block; margin-top: 7px; padding: 2px 7px; background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.35); border-radius: 100px; font-size: .57rem; font-weight: 700; color: #16a34a; letter-spacing: .04em; }
+
+    /* ── Closing ─────────────────────────────────────────────── */
+    .closing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px,3vw,48px); align-items: start; }
+    .thank-you { font-size: clamp(2.5rem,6vw,5rem); font-weight: 900; line-height: 1; letter-spacing: -.04em; }
+    .github-block { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: clamp(20px,3vw,40px); box-shadow: var(--shadow); }
+    .github-url { font-size: clamp(.85rem,1.3vw,1rem); font-family: 'Inter', sans-serif; font-weight: 500; word-break: break-all; }
+    .github-url a { color: var(--red); text-decoration: none; }
+    .github-url a:hover { text-decoration: underline; }
+    .contrib-row { display: flex; flex-direction: column; gap: 6px; margin-top: clamp(12px,1.5vh,20px); }
+    .contrib { display: flex; align-items: center; gap: 10px; font-size: clamp(.65rem,.9vw,.78rem); color: var(--muted); }
+    .contrib::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+
+    /* ── Slide backgrounds ───────────────────────────────────── */
+    #s1  { background: radial-gradient(ellipse 60% 60% at 70% 50%, rgba(166,0,31,.07) 0%, transparent 70%), var(--bg); }
+    #s2  { background: radial-gradient(ellipse 50% 70% at 15% 60%, rgba(166,0,31,.05) 0%, transparent 65%), var(--bg); }
+    #s3  { background: radial-gradient(ellipse 55% 55% at 85% 40%, rgba(166,0,31,.06) 0%, transparent 70%), var(--bg); }
+    #s4  { background: var(--bg); }
+    #s5  { background: radial-gradient(ellipse 40% 50% at 80% 80%, rgba(58,97,135,.06) 0%, transparent 60%), var(--bg); }
+    #s6  { background: var(--bg); }
+    #s7  { background: radial-gradient(ellipse 45% 55% at 10% 20%, rgba(166,0,31,.05) 0%, transparent 60%), var(--bg); }
+    #s8  { background: var(--bg); }
+    #s9  { background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(166,0,31,.07) 0%, transparent 65%), var(--bg); }
+    #s10 { background: radial-gradient(ellipse 55% 60% at 50% 50%, rgba(166,0,31,.08) 0%, transparent 65%), var(--bg); }
+
+    /* ── Slide 1 wordmark ────────────────────────────────────── */
+    .s1-wordmark { font-size: clamp(4rem,12vw,10rem); font-weight: 900; letter-spacing: -.06em; line-height: .9; }
+    .s1-year     { font-size: clamp(.65rem,.9vw,.78rem); font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+    .s1-tagline  { font-size: clamp(1rem,1.8vw,1.35rem); color: var(--muted); font-weight: 300; letter-spacing: .01em; margin-top: clamp(12px,1.8vh,24px); }
+    .s1-meta     { display: flex; gap: clamp(16px,3vw,40px); margin-top: clamp(20px,3vh,40px); }
+    .s1-meta-val { font-size: clamp(1rem,1.5vw,1.2rem); font-weight: 800; }
+    .s1-meta-key { font-size: clamp(.6rem,.8vw,.7rem); color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+
+    /* ── Reduced motion ──────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      .slide { transition: opacity .15s; transform: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="progress-bar"></div>
+  <div id="slide-counter"></div>
+  <button class="nav-arrow" id="nav-prev" aria-label="Previous slide">&#8592;</button>
+  <button class="nav-arrow" id="nav-next" aria-label="Next slide">&#8594;</button>
+
+  <div id="deck">
+
+    <!-- ── Slide 1 · Title ─────────────────────────────────── -->
+    <section class="slide active" id="s1" aria-label="Title slide">
+      <div class="slide-inner">
+        <div class="col2" style="align-items:center; gap:clamp(24px,5vw,80px);">
+          <div>
+            <div class="s1-year">Web Engineering · Final Project · 2026</div>
+            <div class="s1-wordmark">out<span style="color:var(--red);">Drive</span></div>
+            <div class="s1-tagline">Premium Vehicle Rental Platform<br>Built for the Modern Traveler</div>
+            <div class="s1-meta">
+              <div>
+                <div class="s1-meta-val">12</div>
+                <div class="s1-meta-key">Pages</div>
+              </div>
+              <div>
+                <div class="s1-meta-val">10</div>
+                <div class="s1-meta-key">API Endpoints</div>
+              </div>
+              <div>
+                <div class="s1-meta-val">Full Stack</div>
+                <div class="s1-meta-key">Web App</div>
+              </div>
+            </div>
+          </div>
+          <div style="border-left:1px solid var(--border); padding-left:clamp(24px,4vw,60px);">
+            <div class="eyebrow">Presented by</div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(12px,1.8vh,20px);">
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;box-shadow:var(--shadow);">
+                <div style="font-size:clamp(.82rem,1.15vw,.95rem);font-weight:700;">Ibrahim Khalil</div>
+                <div style="font-size:clamp(.62rem,.85vw,.72rem);color:var(--muted);margin-top:2px;">ID: 221005771 &nbsp;·&nbsp; Full-Stack Developer</div>
+              </div>
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;box-shadow:var(--shadow);">
+                <div style="font-size:clamp(.82rem,1.15vw,.95rem);font-weight:700;">Mahmoud Aboheif</div>
+                <div style="font-size:clamp(.62rem,.85vw,.72rem);color:var(--muted);margin-top:2px;">ID: 221004705 &nbsp;·&nbsp; Full-Stack Developer</div>
+              </div>
+            </div>
+            <div style="font-size:clamp(.62rem,.82vw,.72rem);color:var(--muted);">Web Engineering · Dr. Amr Fahmy · Spring 2026</div>
+            <div class="pill-row" style="margin-top:clamp(14px,2vh,24px);">
+              <span class="pill accent">Node.js</span>
+              <span class="pill accent">MongoDB</span>
+              <span class="pill accent">Express</span>
+              <span class="pill">HTML5 / CSS3 / JS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Slide 2 · Problem Statement ────────────────────── -->
+    <section class="slide" id="s2" aria-label="Problem statement">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 01 — Problem Statement</div>
+        <h2 class="slide-title">What's Broken in <em>Car Rental</em> Today?</h2>
+        <div class="divider"></div>
+        <div class="problem-list">
+          <div class="problem-item">
+            <div class="problem-num">01</div>
+            <div>
+              <div class="problem-title">Fragmented &amp; Outdated Digital Experiences</div>
+              <div class="problem-desc">Existing rental platforms are cluttered, slow, and offer no sense of brand identity. Users abandon bookings due to friction-heavy multi-step flows.</div>
+            </div>
+          </div>
+          <div class="problem-item">
+            <div class="problem-num">02</div>
+            <div>
+              <div class="problem-title">No Curation — Overwhelming Vehicle Choice</div>
+              <div class="problem-desc">Platforms dump hundreds of vehicles on users with minimal filtering. High-value customers want a curated, editorial selection — not a spreadsheet.</div>
+            </div>
+          </div>
+          <div class="problem-item">
+            <div class="problem-num">03</div>
+            <div>
+              <div class="problem-title">Poor Account &amp; Booking Management</div>
+              <div class="problem-desc">Most services lack proper user profiles, rental history, saved vehicles, or transparent pricing breakdowns — leading to mistrust and poor retention.</div>
+            </div>
+          </div>
+          <div class="problem-item">
+            <div class="problem-num">04</div>
+            <div>
+              <div class="problem-title">No Personalization for Premium Customers</div>
+              <div class="problem-desc">The premium segment (sports cars, luxury EVs, exotic SUVs) has no dedicated digital home. Bookings happen over phone calls or via outdated portals.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Slide 3 · Proposed Solution ────────────────────── -->
+    <section class="slide" id="s3" aria-label="Proposed solution">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 02 — Proposed Solution</div>
+        <h2 class="slide-title">Introducing <em>outDrive</em></h2>
+        <div class="divider"></div>
+        <div class="solution-callout">
+          <p>A full-stack premium vehicle rental platform that delivers a curated fleet, transparent pricing, seamless booking, and complete account management — all from a single cohesive web experience.</p>
+        </div>
+        <div class="col3">
+          <div class="card">
+            <div class="card-icon">🎯</div>
+            <div class="card-title">Curated Fleet</div>
+            <div class="card-body">Hand-selected sports cars, luxury EVs, and premium SUVs — each with detailed specs and gallery.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">⚡</div>
+            <div class="card-title">Instant Booking</div>
+            <div class="card-body">Multi-step booking flow with real-time pricing calculation, extras selection, and confirmation.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔐</div>
+            <div class="card-title">Secure Accounts</div>
+            <div class="card-body">JWT-authenticated profiles with rental history, saved vehicles, and booking management.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Slide 4 · Team ──────────────────────────────────── -->
+    <section class="slide" id="s4" aria-label="Team and task organization">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 03 — Team &amp; Task Organization</div>
+        <h2 class="slide-title">Who Built <em>outDrive</em></h2>
+        <div class="divider"></div>
+        <div class="col2" style="margin-bottom:clamp(12px,1.5vh,20px); max-width:700px;">
+          <div class="team-card">
+            <div class="avatar">IK</div>
+            <div class="team-name">Ibrahim Khalil</div>
+            <div class="team-role">221005771 · Frontend &amp; Deployment</div>
+            <div class="team-tasks">
+              <span class="tag">UI Design</span>
+              <span class="tag">CSS System</span>
+              <span class="tag">Deployment</span>
+            </div>
+          </div>
+          <div class="team-card">
+            <div class="avatar">MA</div>
+            <div class="team-name">Mahmoud Aboheif</div>
+            <div class="team-role">221004705 · Backend &amp; Database</div>
+            <div class="team-tasks">
+              <span class="tag">Express API</span>
+              <span class="tag">Auth &amp; JWT</span>
+              <span class="tag">MongoDB</span>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:clamp(12px,1.5vw,20px);">
+          <div class="label" style="margin-bottom:8px;">Collaboration Approach</div>
+          <div style="display:flex;gap:clamp(12px,2vw,32px);flex-wrap:wrap;">
+            <div class="pill">Git version control</div>
+            <div class="pill">Feature branches</div>
+            <div class="pill">Regular code reviews</div>
+            <div class="pill">Shared design tokens</div>
+            <div class="pill">REST API contract</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Slide 5 · Work Steps ────────────────────────────── -->
+    <section class="slide" id="s5" aria-label="Work steps and outcomes">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 04 — Work Steps &amp; Outcomes</div>
+        <h2 class="slide-title">How We <em>Built It</em></h2>
+        <div class="divider"></div>
+        <div class="timeline">
+          <div class="tl-phase">
+            <div class="tl-dot"></div>
+            <div class="tl-node">
+              <div class="tl-week">Week 10</div>
+              <div class="tl-title">Requirements &amp; Design</div>
+              <div class="tl-result">Design tokens, color palette, typography, shared CSS component library</div>
+              <div class="tl-badge">Done</div>
+            </div>
+          </div>
+          <div class="tl-phase">
+            <div class="tl-dot"></div>
+            <div class="tl-node">
+              <div class="tl-week">Week 11</div>
+              <div class="tl-title">Frontend Pages</div>
+              <div class="tl-result">12 HTML pages — Home, Fleet, Car Details, Booking, Profile &amp; more</div>
+              <div class="tl-badge">Done</div>
+            </div>
+          </div>
+          <div class="tl-phase">
+            <div class="tl-dot"></div>
+            <div class="tl-node">
+              <div class="tl-week">Week 12</div>
+              <div class="tl-title">Database &amp; API Design</div>
+              <div class="tl-result">User &amp; Car models, REST routes defined, seed data prepared</div>
+              <div class="tl-badge">Done</div>
+            </div>
+          </div>
+          <div class="tl-phase">
+            <div class="tl-dot"></div>
+            <div class="tl-node">
+              <div class="tl-week">Week 13</div>
+              <div class="tl-title">Backend API</div>
+              <div class="tl-result">Auth (JWT + bcrypt), Cars API, Booking CRUD, Saved vehicles</div>
+              <div class="tl-badge">Done</div>
+            </div>
+          </div>
+          <div class="tl-phase">
+            <div class="tl-dot"></div>
+            <div class="tl-node">
+              <div class="tl-week">Week 14–15</div>
+              <div class="tl-title">Integration</div>
+              <div class="tl-result">API calls wired, localStorage session, dynamic car data from MongoDB</div>
+              <div class="tl-badge">Done</div>
+            </div>
+          </div>
+          <div class="tl-phase">
+            <div class="tl-dot"></div>
+            <div class="tl-node">
+              <div class="tl-week">Week 16</div>
+              <div class="tl-title">Testing &amp; Polish</div>
+              <div class="tl-result">Cross-browser testing, edge cases, animations, deployment via Vercel</div>
+              <div class="tl-badge">Done</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Slide 6 · Features ──────────────────────────────── -->
+    <section class="slide" id="s6" aria-label="Final product features">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 05 — Final Product Features</div>
+        <h2 class="slide-title">What <em>outDrive</em> Delivers</h2>
+        <div class="divider"></div>
+        <div class="feature-grid">
+          <div class="feat"><div class="feat-icon">🚗</div><div class="feat-text"><div class="feat-title">Curated Fleet Browser</div><div class="feat-desc">Filter by type, seats, price, fuel. Sort by price. Real-time search with MongoDB queries.</div></div></div>
+          <div class="feat"><div class="feat-icon">📋</div><div class="feat-text"><div class="feat-title">Vehicle Detail Pages</div><div class="feat-desc">Multi-image gallery, full specs, features list, and direct booking CTA per vehicle.</div></div></div>
+          <div class="feat"><div class="feat-icon">📅</div><div class="feat-text"><div class="feat-title">Multi-Step Booking Flow</div><div class="feat-desc">Date picker, location, extras (insurance, GPS, child seat), live price breakdown.</div></div></div>
+          <div class="feat"><div class="feat-icon">✅</div><div class="feat-text"><div class="feat-title">Booking Confirmation</div><div class="feat-desc">Unique reference code (OD-XXXX-XXXX), full receipt with tax and service fee.</div></div></div>
+          <div class="feat"><div class="feat-icon">🔑</div><div class="feat-text"><div class="feat-title">Secure Auth System</div><div class="feat-desc">Sign up / sign in with JWT tokens, bcrypt hashing, 7-day session persistence.</div></div></div>
+          <div class="feat"><div class="feat-icon">👤</div><div class="feat-text"><div class="feat-title">User Profile &amp; Edit</div><div class="feat-desc">View and update name, email, phone, nationality. Protected by auth middleware.</div></div></div>
+          <div class="feat"><div class="feat-icon">📂</div><div class="feat-text"><div class="feat-title">Rental History</div><div class="feat-desc">View all past, upcoming, and completed rentals. Cancel upcoming bookings inline.</div></div></div>
+          <div class="feat"><div class="feat-icon">❤️</div><div class="feat-text"><div class="feat-title">Saved Vehicles</div><div class="feat-desc">Bookmark / unbookmark vehicles. Persisted to MongoDB and returned on login.</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Slide 7 · Technical Specs ──────────────────────── -->
+    <section class="slide" id="s7" aria-label="Technical specifications">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 06 — Technical Specifications</div>
+        <h2 class="slide-title">The Stack &amp; <em>Architecture</em></h2>
+        <div class="divider"></div>
+        <div class="col2" style="gap:clamp(20px,3vw,48px);">
+          <div>
+            <div class="label" style="margin-bottom:12px;">Technology Stack</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="card" style="padding:clamp(10px,1.2vw,16px);">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div class="card-title" style="margin:0;">Frontend</div><div class="tag">Client</div>
+                </div>
+                <div class="pill-row" style="margin-top:8px;">
+                  <span class="pill">HTML5</span><span class="pill">CSS3</span><span class="pill">Vanilla JS</span><span class="pill">Manrope / Inter</span><span class="pill">Material Symbols</span>
+                </div>
+              </div>
+              <div class="card" style="padding:clamp(10px,1.2vw,16px);">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div class="card-title" style="margin:0;">Backend</div><div class="tag">Server</div>
+                </div>
+                <div class="pill-row" style="margin-top:8px;">
+                  <span class="pill accent">Node.js</span><span class="pill accent">Express 4</span><span class="pill">dotenv</span><span class="pill">cors</span>
+                </div>
+              </div>
+              <div class="card" style="padding:clamp(10px,1.2vw,16px);">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div class="card-title" style="margin:0;">Database &amp; Security</div><div class="tag">Data</div>
+                </div>
+                <div class="pill-row" style="margin-top:8px;">
+                  <span class="pill accent">MongoDB</span><span class="pill accent">Mongoose</span><span class="pill gold">JWT</span><span class="pill gold">bcrypt</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="label" style="margin-bottom:12px;">API Endpoints</div>
+            <table class="api-table">
+              <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><span class="method post">POST</span></td><td>/api/auth/signup</td><td>Register new user</td></tr>
+                <tr><td><span class="method post">POST</span></td><td>/api/auth/signin</td><td>Authenticate user</td></tr>
+                <tr><td><span class="method get">GET</span></td><td>/api/auth/me</td><td>Get current user</td></tr>
+                <tr><td><span class="method put">PUT</span></td><td>/api/auth/me</td><td>Update profile</td></tr>
+                <tr><td><span class="method post">POST</span></td><td>/api/auth/bookings</td><td>Create booking</td></tr>
+                <tr><td><span class="method del">DEL</span></td><td>/api/auth/bookings/:id</td><td>Cancel booking</td></tr>
+                <tr><td><span class="method put">PUT</span></td><td>/api/auth/saved-vehicles/:id</td><td>Toggle saved</td></tr>
+                <tr><td><span class="method post">POST</span></td><td>/api/auth/reset-password</td><td>Reset password</td></tr>
+                <tr><td><span class="method get">GET</span></td><td>/api/cars</td><td>List &amp; filter cars</td></tr>
+                <tr><td><span class="method get">GET</span></td><td>/api/cars/:id</td><td>Single car details</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Slide 8 · Architecture ──────────────────────────── -->
+    <section class="slide" id="s8" aria-label="System architecture">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 07 — System Architecture</div>
+        <h2 class="slide-title">How It All <em>Connects</em></h2>
+        <div class="divider"></div>
+        <div style="display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr;align-items:center;gap:8px;margin-bottom:clamp(16px,2vh,28px);">
+          <div class="arch-box">
+            <div class="arch-title">🖥️ Frontend (Browser)</div>
+            <div class="arch-items">
+              <div class="arch-item">home.html</div>
+              <div class="arch-item">fleet.html</div>
+              <div class="arch-item">car-details.html</div>
+              <div class="arch-item">booking-flow.html</div>
+              <div class="arch-item">booking-confirm.html</div>
+              <div class="arch-item">signin / signup.html</div>
+              <div class="arch-item">profile.html</div>
+              <div class="arch-item">rental-history.html</div>
+              <div class="arch-item">saved-vehicles.html</div>
+              <div class="arch-item">locations.html</div>
+              <div class="arch-item">experience.html</div>
+            </div>
+          </div>
+          <div style="text-align:center;align-self:center;">
+            <div style="font-size:clamp(1rem,2vw,1.6rem);color:var(--red);">⟷</div>
+            <div class="arch-item" style="border-radius:6px;padding:4px;margin-top:4px;font-size:.6rem;">HTTP / REST</div>
+          </div>
+          <div class="arch-box">
+            <div class="arch-title">⚙️ Backend (Express)</div>
+            <div class="arch-items">
+              <div class="arch-item">server.js</div>
+              <div class="arch-item">routes/auth.js</div>
+              <div class="arch-item">routes/cars.js</div>
+              <div class="arch-item">JWT middleware</div>
+              <div class="arch-item">bcrypt hashing</div>
+              <div class="arch-item">Static file serving</div>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:clamp(1rem,2vw,1.6rem);color:var(--red);">⟷</div>
+            <div class="arch-item" style="border-radius:6px;padding:4px;margin-top:4px;font-size:.6rem;">Mongoose ODM</div>
+          </div>
+          <div class="arch-box">
+            <div class="arch-title">🗄️ MongoDB Atlas</div>
+            <div class="arch-items">
+              <div class="arch-item">users collection</div>
+              <div class="arch-item">cars collection</div>
+              <div class="arch-item">User: firstName, lastName, email, passwordHash, phone, rentals[], savedVehicles[]</div>
+              <div class="arch-item">Car: name, brand, type, pricePerDay, seats, transmission, fuelType, power, images[]</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:clamp(8px,1.5vw,20px);flex-wrap:wrap;">
+          <div class="pill accent">Deployed on Vercel</div>
+          <div class="pill">Static pages served from /pages</div>
+          <div class="pill">Assets served from /assets</div>
+          <div class="pill accent">JWT Bearer token auth</div>
+          <div class="pill gold">Seeded vehicle data on startup</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Slide 9 · Achievements ──────────────────────────── -->
+    <section class="slide" id="s9" aria-label="Achievements and results">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 08 — Achievements &amp; Results</div>
+        <h2 class="slide-title">What We <em>Achieved</em></h2>
+        <div class="divider"></div>
+        <div class="col4" style="margin-bottom:clamp(16px,2.5vh,28px);">
+          <div class="stat card"><div class="stat-value" data-count="12">0</div><div class="stat-label">HTML Pages</div></div>
+          <div class="stat card"><div class="stat-value" data-count="10">0</div><div class="stat-label">API Endpoints</div></div>
+          <div class="stat card"><div class="stat-value" data-count="6">0</div><div class="stat-label">Vehicles in Fleet</div></div>
+          <div class="stat card"><div class="stat-value" data-count="100">0</div><div class="stat-label">% Features Functional</div></div>
+        </div>
+        <div class="col2">
+          <div>
+            <div class="label" style="margin-bottom:10px;">Technical Achievements</div>
+            <div style="display:flex;flex-direction:column;gap:7px;">
+              <div class="feat" style="padding:clamp(10px,1.2vw,16px);"><div class="feat-icon" style="font-size:1rem;">✅</div><div class="feat-desc">Full JWT authentication pipeline — signup, signin, protected routes, session persistence</div></div>
+              <div class="feat" style="padding:clamp(10px,1.2vw,16px);"><div class="feat-icon" style="font-size:1rem;">✅</div><div class="feat-desc">Dynamic pricing engine: base rate × days + extras + service fee + 8.25% tax</div></div>
+              <div class="feat" style="padding:clamp(10px,1.2vw,16px);"><div class="feat-icon" style="font-size:1rem;">✅</div><div class="feat-desc">Real-time fleet filtering by type, seats, fuel type, price range, and search</div></div>
+              <div class="feat" style="padding:clamp(10px,1.2vw,16px);"><div class="feat-icon" style="font-size:1rem;">✅</div><div class="feat-desc">Cohesive multi-page design system with shared CSS tokens, navbar, and reveal animations</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="label" style="margin-bottom:10px;">Design &amp; UX Achievements</div>
+            <div style="display:flex;flex-direction:column;gap:7px;">
+              <div class="feat" style="padding:clamp(10px,1.2vw,16px);"><div class="feat-icon" style="font-size:1rem;">🎨</div><div class="feat-desc">Editorial dark-luxury visual identity with custom brand tokens (Manrope, red #a6001f)</div></div>
+              <div class="feat" style="padding:clamp(10px,1.2vw,16px);"><div class="feat-icon" style="font-size:1rem;">📱</div><div class="feat-desc">Fully responsive across mobile, tablet, and desktop viewports</div></div>
+              <div class="feat" style="padding:clamp(10px,1.2vw,16px);"><div class="feat-icon" style="font-size:1rem;">🔒</div><div class="feat-desc">Secure password hashing with bcrypt (12 rounds), unique booking references generated server-side</div></div>
+              <div class="feat" style="padding:clamp(10px,1.2vw,16px);"><div class="feat-icon" style="font-size:1rem;">🌐</div><div class="feat-desc">Multi-page SPA-like experience with offcanvas navigation, scroll reveal, and smooth transitions</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Slide 10 · Closing ──────────────────────────────── -->
+    <section class="slide" id="s10" aria-label="GitHub and conclusion">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 09 — GitHub &amp; Conclusion</div>
+        <div class="closing-grid">
+          <div>
+            <span class="thank-you">Thank<br>You.</span>
+            <div class="slide-sub" style="margin-top:clamp(10px,1.5vh,20px);">
+              outDrive is a demonstration of a complete full-stack web engineering project — from database design and REST API to a premium multi-page frontend experience.
+            </div>
+            <div class="pill-row" style="margin-top:clamp(12px,2vh,24px);">
+              <span class="pill accent">Node.js + Express</span>
+              <span class="pill accent">MongoDB + Mongoose</span>
+              <span class="pill gold">JWT Auth</span>
+            </div>
+          </div>
+          <div>
+            <div class="github-block">
+              <div class="label" style="margin-bottom:12px;">📁 GitHub Repository</div>
+              <div class="github-url">
+                <a href="https://github.com/Quartz-I/OutDrive" target="_blank">github.com/Quartz-I/OutDrive</a>
+              </div>
+              <div class="contrib-row">
+                <div class="contrib">master branch — production-ready code</div>
+                <div class="contrib">backend/ — Express API + MongoDB models</div>
+                <div class="contrib">pages/ — 12 HTML frontend pages</div>
+                <div class="contrib">assets/ — CSS design system + images</div>
+              </div>
+            </div>
+            <div style="margin-top:clamp(10px,1.5vh,18px);background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:clamp(12px,1.5vw,20px);box-shadow:var(--shadow);">
+              <div class="label" style="margin-bottom:10px;">🌐 Live Demo</div>
+              <div style="font-size:clamp(.75rem,1.1vw,.9rem);font-family:'Inter',sans-serif;font-weight:500;">
+                <a href="https://out-drive.vercel.app/" target="_blank" style="color:var(--red);text-decoration:none;word-break:break-all;">out-drive.vercel.app</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /deck -->
+
+  <script>
+    (function () {
+      'use strict';
+
+      const slides  = Array.from(document.querySelectorAll('.slide'));
+      const dotsEl  = document.getElementById('slide-counter');
+      const bar     = document.getElementById('progress-bar');
+      const btnPrev = document.getElementById('nav-prev');
+      const btnNext = document.getElementById('nav-next');
+      let current   = 0;
+      let animating = false;
+
+      /* build dots */
+      slides.forEach((_, i) => {
+        const dot = document.createElement('span');
+        dot.addEventListener('click', () => goTo(i));
+        dotsEl.appendChild(dot);
+      });
+
+      function update(prev, next) {
+        const allDots = dotsEl.querySelectorAll('span');
+
+        if (prev !== null) {
+          slides[prev].classList.remove('active');
+          slides[prev].classList.add('exit-up');
+          slides[prev].addEventListener('transitionend', function h() {
+            this.classList.remove('exit-up');
+            this.removeEventListener('transitionend', h);
+          }, { once: true });
+        }
+
+        slides[next].classList.add('active');
+        allDots.forEach((d, i) => d.classList.toggle('active', i === next));
+        bar.style.width = ((next + 1) / slides.length * 100) + '%';
+        btnPrev.style.opacity = next === 0 ? '0.3' : '1';
+        btnNext.style.opacity = next === slides.length - 1 ? '0.3' : '1';
+
+        if (next === 8) animateCounters();
+      }
+
+      function goTo(idx) {
+        if (idx < 0 || idx >= slides.length || idx === current || animating) return;
+        animating = true;
+        const prev = current;
+        current = idx;
+        update(prev, current);
+        setTimeout(() => { animating = false; }, 650);
+      }
+
+      btnNext.addEventListener('click', () => goTo(current + 1));
+      btnPrev.addEventListener('click', () => goTo(current - 1));
+
+      document.addEventListener('keydown', e => {
+        if (['ArrowRight','ArrowDown',' '].includes(e.key)) { e.preventDefault(); goTo(current + 1); }
+        if (['ArrowLeft','ArrowUp'].includes(e.key))        { e.preventDefault(); goTo(current - 1); }
+      });
+
+      let wheelLock = false;
+      document.addEventListener('wheel', e => {
+        e.preventDefault();
+        if (wheelLock) return;
+        wheelLock = true;
+        e.deltaY > 0 ? goTo(current + 1) : goTo(current - 1);
+        setTimeout(() => { wheelLock = false; }, 800);
+      }, { passive: false });
+
+      let ty = 0, tx = 0;
+      document.addEventListener('touchstart', e => { ty = e.touches[0].clientY; tx = e.touches[0].clientX; }, { passive: true });
+      document.addEventListener('touchend', e => {
+        const dy = ty - e.changedTouches[0].clientY;
+        const dx = tx - e.changedTouches[0].clientX;
+        if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40) {
+          dy > 0 ? goTo(current + 1) : goTo(current - 1);
+        }
+      }, { passive: true });
+
+      function animateCounters() {
+        document.querySelectorAll('[data-count]').forEach(el => {
+          const target   = parseInt(el.dataset.count, 10);
+          const duration = 900;
+          const start    = performance.now();
+          function step(ts) {
+            const p    = Math.min((ts - start) / duration, 1);
+            const ease = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.round(ease * target);
+            if (p < 1) requestAnimationFrame(step);
+            else el.textContent = target;
+          }
+          requestAnimationFrame(step);
+        });
+      }
+
+      update(null, 0);
+    })();
+  </script>
+</body>
+</html>
