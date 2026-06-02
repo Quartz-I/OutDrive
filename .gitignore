@@ -21,3 +21,6 @@ desktop.ini
 # Logs
 *.log
 logs/
+
+# Project docs
+docs/
