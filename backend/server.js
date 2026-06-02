@@ -1,3 +1,6 @@
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -29,17 +32,21 @@ app.get('/api/health', (req, res) => {
   res.json({ message: 'outDrive API is running' });
 });
 
-// Connect to MongoDB then start server
-const PORT = process.env.PORT || 3000;
-
+// Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, { family: 4 })
   .then(async () => {
     console.log('Connected to MongoDB');
     await seedCars();
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err.message);
-    process.exit(1);
   });
+
+// Local development only
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+module.exports = app;
